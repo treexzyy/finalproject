@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Турніри та фотозвіт — CyberArena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ОБЩИЙ HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">CYBER<span>ARENA</span></a>
+
+      <nav class="nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link" data-i18n="nav_home">Головна</a></li>
+          <li><a href="pricing.html" class="nav-link" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+          <li><a href="tournaments.html" class="nav-link active" data-i18n="nav_tournaments">Турніри</a></li>
+          <li><a href="register.html" class="nav-link" data-i18n="nav_register">Реєстрація</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+        <select id="langSwitcher" aria-label="Вибір мови" style="background: #161922; color: #ffffff; border: 1px solid #2a2f3d; border-radius: 6px; padding: 8px 10px; font-size: 14px; font-weight: 600; cursor: pointer; outline: none;">
+          <option value="uk" selected>UA</option>
+          <option value="ru">RU</option>
+          <option value="en">EN</option>
+          <option value="pl">PL</option>
+          <option value="de">DE</option>
+          <option value="fr">FR</option>
+          <option value="it">IT</option>
+        </select>
+
+        <a href="pricing.html#calculator" class="btn btn-primary" data-i18n="btn_book">Забронювати</a>
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ПРЕДСТОЯЩИЕ ТУРНИРЫ -->
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title" data-i18n="tour_title">Найближчі турніри</h1>
+        <p class="section-subtitle" data-i18n="tour_subtitle">Збирай склад або реєструйся як вільний агент. Внесок з команди — 500 грн.</p>
+
+        <div class="cards-grid">
+          <div class="card">
+            <img src="img/tour-cs2.jpg" alt="Турнір CS2" class="card-img">
+            <div class="card-body">
+              <h3 class="card-title">CyberArena Open: CS2</h3>
+              <div class="card-price">15 000 грн <span data-i18n="prize_pool">призовий фонд</span></div>
+              <div class="countdown-badge" data-date="2026-12-05T14:00:00" data-i18n="timer_loading">Завантаження таймера...</div>
+              <ul class="card-list">
+                <li data-i18n="tour_cs_1">Формат: 5x5 Double Elimination</li>
+                <li data-i18n="tour_cs_2">Максимум команд: 16</li>
+                <li data-i18n="tour_cs_3">Локація: LAN, головний зал</li>
+              </ul>
+              <a href="register.html" class="btn btn-primary" data-i18n="btn_apply">Подати заявку</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="img/tour-dota2.jpg" alt="Турнір Dota 2" class="card-img">
+            <div class="card-body">
+              <h3 class="card-title">Winter Cup: Dota 2</h3>
+              <div class="card-price">12 000 грн <span data-i18n="prize_pool">призовий фонд</span></div>
+              <div class="countdown-badge" data-date="2026-12-12T12:00:00" data-i18n="timer_loading">Завантаження таймера...</div>
+              <ul class="card-list">
+                <li data-i18n="tour_dota_1">Формат: 5x5 Captains Mode</li>
+                <li data-i18n="tour_dota_2">Максимум команд: 12</li>
+                <li data-i18n="tour_dota_3">Пряма трансляція фіналу</li>
+              </ul>
+              <a href="register.html" class="btn btn-primary" data-i18n="btn_apply">Подати заявку</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="img/tour-valorant.jpg" alt="Турнір Valorant" class="card-img">
+            <div class="card-body">
+              <h3 class="card-title">Valorant Spike Night</h3>
+              <div class="card-price">8 000 грн <span data-i18n="prize_pool">призовий фонд</span></div>
+              <div class="countdown-badge" data-date="2026-12-19T18:00:00" data-i18n="timer_loading">Завантаження таймера...</div>
+              <ul class="card-list">
+                <li data-i18n="tour_val_1">Формат: 5x5 Single Elimination</li>
+                <li data-i18n="tour_val_2">Максимум команд: 8</li>
+                <li data-i18n="tour_val_3">Бонуси від спонсора HyperX</li>
+              </ul>
+              <a href="register.html" class="btn btn-primary" data-i18n="btn_apply">Подати заявку</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ФОТООТЧЁТ С МОДАЛЬНЫМ ОКНОМ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <h2 class="section-title" data-i18n="report_title">Фотозвіт із минулих матчів</h2>
+        <p class="section-subtitle" data-i18n="report_subtitle">Натисни на будь-яку фотографію, щоб відкрити її у повному розмірі.</p>
+
+        <div class="photo-report-grid">
+          <div class="report-photo"><img src="img/hero.jpg" alt="Фінал осіннього кубка CS2"></div>
+          <div class="report-photo"><img src="img/zone-3.jpg" alt="Команда переможців"></div>
+          <div class="report-photo"><img src="img/zone-14.jpg" alt="Напружений раунд у буткемпі"></div>
+          <div class="report-photo"><img src="img/zone-1.jpg" alt="Нагородження призерів"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- МОДАЛЬНОЕ ОКНО ДЛЯ ФОТО -->
+  <div class="modal" id="photoModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" data-i18n="btn_close">Закрити ✕</button>
+      <img src="" alt="Перегляд фото" id="modalImg">
+    </div>
+  </div>
+
+  <!-- ОБЩИЙ FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="logo" style="margin-bottom: 14px;">CYBER<span>ARENA</span></a>
+          <p class="footer-text" data-i18n="footer_desc">
+            Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_sitemap">Карта сайту</h3>
+          <ul class="footer-links">
+            <li><a href="index.html" data-i18n="nav_home">Головна</a></li>
+            <li><a href="pricing.html" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+            <li><a href="tournaments.html" data-i18n="nav_tournaments_full">Турніри та фото</a></li>
+            <li><a href="register.html" data-i18n="nav_register">Реєстрація</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_contacts">Контакти</h3>
+          <p class="footer-text" data-i18n="footer_address">вул. Незалежності, 44, 2 поверх</p>
+          <p class="footer-text" data-i18n="footer_schedule">Графік: 24/7 без вихідних</p>
+          <p class="footer-text">Тел: +38 (099) 555-35-35</p>
+          <p class="footer-text">info@cyberarena.ua</p>
+        </div>
+
+        <div class="footer-map">
+          <h3 class="footer-title" data-i18n="footer_map">Ми на карті</h3>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.842793961157!2d24.711117!3d48.922633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4730c16c34b0381d%3A0xd6d32394e59e41c2!2z0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQuiwg0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCA3NjAwMA!5e0!3m2!1suk!2sua!4v1700000000000"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Карта проїзду CyberArena">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="footer-bottom" data-i18n="footer_copy">
+        &copy; 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript.
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const tourTranslations = {
+        uk: {
+          nav_home: "Головна", nav_pricing: "Тарифи та ПК", nav_tournaments: "Турніри", nav_tournaments_full: "Турніри та фото", nav_register: "Реєстрація",
+          btn_book: "Забронювати", tour_title: "Найближчі турніри",
+          tour_subtitle: "Збирай склад або реєструйся як вільний агент. Внесок з команди — 500 грн.",
+          prize_pool: "призовий фонд", timer_loading: "Завантаження таймера...",
+          tour_cs_1: "Формат: 5x5 Double Elimination", tour_cs_2: "Максимум команд: 16", tour_cs_3: "Локація: LAN, головний зал",
+          tour_dota_1: "Формат: 5x5 Captains Mode", tour_dota_2: "Максимум команд: 12", tour_dota_3: "Пряма трансляція фіналу",
+          tour_val_1: "Формат: 5x5 Single Elimination", tour_val_2: "Максимум команд: 8", tour_val_3: "Бонуси від спонсора HyperX",
+          btn_apply: "Подати заявку", report_title: "Фотозвіт із минулих матчів",
+          report_subtitle: "Натисни на будь-яку фотографію, щоб відкрити її у повному розмірі.", btn_close: "Закрити ✕",
+          footer_desc: "Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.",
+          footer_sitemap: "Карта сайту", footer_contacts: "Контакти", footer_address: "вул. Незалежності, 44, 2 поверх",
+          footer_schedule: "Графік: 24/7 без вихідних", footer_map: "Ми на карті",
+          footer_copy: "© 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript."
+        },
+        ru: {
+          nav_home: "Главная", nav_pricing: "Тарифы и ПК", nav_tournaments: "Турниры", nav_tournaments_full: "Турниры и фото", nav_register: "Регистрация",
+          btn_book: "Забронировать", tour_title: "Предстоящие турниры",
+          tour_subtitle: "Собирай состав или регистрируйся как свободный агент. Взнос с команды — 500 грн.",
+          prize_pool: "призовой фонд", timer_loading: "Загрузка таймера...",
+          tour_cs_1: "Формат: 5x5 Double Elimination", tour_cs_2: "Максимум команд: 16", tour_cs_3: "Локация: LAN, главный зал",
+          tour_dota_1: "Формат: 5x5 Captains Mode", tour_dota_2: "Максимум команд: 12", tour_dota_3: "Прямая трансляция финала",
+          tour_val_1: "Формат: 5x5 Single Elimination", tour_val_2: "Максимум команд: 8", tour_val_3: "Бонусы от спонсора HyperX",
+          btn_apply: "Подать заявку", report_title: "Фотоотчёт с прошедших матчей",
+          report_subtitle: "Нажми на любую фотографию, чтобы открыть её в полном размере.", btn_close: "Закрыть ✕",
+          footer_desc: "Современный киберспортивный клуб с топовым железом, буткемпами и еженедельными турнирами. Работаем круглосуточно.",
+          footer_sitemap: "Карта сайта", footer_contacts: "Контакты", footer_address: "ул. Независимости, 44, 2 этаж",
+          footer_schedule: "График: 24/7 без выходных", footer_map: "Мы на карте",
+          footer_copy: "© 2026 CyberArena. Учебный финальный проект по HTML, CSS и JavaScript."
+        },
+        en: {
+          nav_home: "Home", nav_pricing: "Pricing & PCs", nav_tournaments: "Tournaments", nav_tournaments_full: "Tournaments & Gallery", nav_register: "Registration",
+          btn_book: "Book Now", tour_title: "Upcoming Tournaments",
+          tour_subtitle: "Gather your roster or register as a free agent. Team entry fee — 500 UAH.",
+          prize_pool: "prize pool", timer_loading: "Loading timer...",
+          tour_cs_1: "Format: 5x5 Double Elimination", tour_cs_2: "Max teams: 16", tour_cs_3: "Location: LAN, Main Hall",
+          tour_dota_1: "Format: 5x5 Captains Mode", tour_dota_2: "Max teams: 12", tour_dota_3: "Live finals broadcast",
+          tour_val_1: "Format: 5x5 Single Elimination", tour_val_2: "Max teams: 8", tour_val_3: "Bonuses from sponsor HyperX",
+          btn_apply: "Apply Now", report_title: "Past Matches Photo Report",
+          report_subtitle: "Click on any photo to view it in full size.", btn_close: "Close ✕",
+          footer_desc: "Modern esports club with top-tier hardware, bootcamps, and weekly tournaments. Open 24/7.",
+          footer_sitemap: "Sitemap", footer_contacts: "Contacts", footer_address: "44 Nezalezhnosti St, 2nd Floor",
+          footer_schedule: "Hours: 24/7 non-stop", footer_map: "Find Us",
+          footer_copy: "© 2026 CyberArena. Final educational project in HTML, CSS & JavaScript."
+        },
+        pl: {
+          nav_home: "Główna", nav_pricing: "Cennik i PC", nav_tournaments: "Turnieje", nav_tournaments_full: "Turnieje i zdjęcia", nav_register: "Rejestracja",
+          btn_book: "Zarezerwuj", tour_title: "Nadchodzące turnieje",
+          tour_subtitle: "Zbierz skład lub zarejestruj się jako wolny agent. Wpisowe od drużyny — 500 UAH.",
+          prize_pool: "pula nagród", timer_loading: "Ładowanie licznika...",
+          tour_cs_1: "Format: 5x5 Double Elimination", tour_cs_2: "Maksimum drużyn: 16", tour_cs_3: "Lokalizacja: LAN, sala główna",
+          tour_dota_1: "Format: 5x5 Captains Mode", tour_dota_2: "Maksimum drużyn: 12", tour_dota_3: "Transmisja na żywo z finału",
+          tour_val_1: "Format: 5x5 Single Elimination", tour_val_2: "Maksimum drużyn: 8", tour_val_3: "Bonusy od sponsora HyperX",
+          btn_apply: "Zgłoś drużynę", report_title: "Fotorelacja z poprzednich meczów",
+          report_subtitle: "Kliknij dowolne zdjęcie, aby otworzyć je w pełnym rozmiarze.", btn_close: "Zamknij ✕",
+          footer_desc: "Nowoczesny klub e-sportowy z topowym sprzętem, bootcampami i cotygodniowymi turniejami. Czynne 24/7.",
+          footer_sitemap: "Mapa strony", footer_contacts: "Kontakt", footer_address: "ul. Niepodległości 44, 2 piętro",
+          footer_schedule: "Godziny: 24/7 bez przerwy", footer_map: "Mapa dojazdu",
+          footer_copy: "© 2026 CyberArena. Finałowy projekt edukacyjny z HTML, CSS i JavaScript."
+        },
+        de: {
+          nav_home: "Startseite", nav_pricing: "Preise & PCs", nav_tournaments: "Turniere", nav_tournaments_full: "Turniere & Fotos", nav_register: "Registrierung",
+          btn_book: "Buchen", tour_title: "Kommende Turniere",
+          tour_subtitle: "Stelle dein Team zusammen oder melde dich als Free Agent an. Startgebühr pro Team — 500 UAH.",
+          prize_pool: "Preispool", timer_loading: "Timer wird geladen...",
+          tour_cs_1: "Format: 5x5 Double Elimination", tour_cs_2: "Max. Teams: 16", tour_cs_3: "Ort: LAN, Haupthalle",
+          tour_dota_1: "Format: 5x5 Captains Mode", tour_dota_2: "Max. Teams: 12", tour_dota_3: "Live-Übertragung des Finales",
+          tour_val_1: "Format: 5x5 Single Elimination", tour_val_2: "Max. Teams: 8", tour_val_3: "Boni von Sponsor HyperX",
+          btn_apply: "Anmelden", report_title: "Fotobericht vergangener Matches",
+          report_subtitle: "Klicke auf ein Foto, um es in voller Größe zu öffnen.", btn_close: "Schließen ✕",
+          footer_desc: "Moderner E-Sport-Club mit Top-Hardware, Bootcamps und wöchentlichen Turnieren. Rund um die Uhr geöffnet.",
+          footer_sitemap: "Sitemap", footer_contacts: "Kontakt", footer_address: "Unabhängigkeitsstr. 44, 2. Stock",
+          footer_schedule: "Öffnungszeiten: 24/7", footer_map: "Standort",
+          footer_copy: "© 2026 CyberArena. Abschlussprojekt in HTML, CSS und JavaScript."
+        },
+        fr: {
+          nav_home: "Accueil", nav_pricing: "Tarifs & PC", nav_tournaments: "Tournois", nav_tournaments_full: "Tournois & Photos", nav_register: "Inscription",
+          btn_book: "Réserver", tour_title: "Tournois à venir",
+          tour_subtitle: "Formez votre équipe ou inscrivez-vous en agent libre. Frais par équipe — 500 UAH.",
+          prize_pool: "cashprize", timer_loading: "Chargement du chrono...",
+          tour_cs_1: "Format : 5x5 Double Elimination", tour_cs_2: "Équipes max : 16", tour_cs_3: "Lieu : LAN, salle principale",
+          tour_dota_1: "Format : 5x5 Captains Mode", tour_dota_2: "Équipes max : 12", tour_dota_3: "Diffusion en direct de la finale",
+          tour_val_1: "Format : 5x5 Single Elimination", tour_val_2: "Équipes max : 8", tour_val_3: "Bonus du sponsor HyperX",
+          btn_apply: "S'inscrire", report_title: "Reportage photo des matchs passés",
+          report_subtitle: "Cliquez sur n'importe quelle photo pour l'ouvrir en plein écran.", btn_close: "Fermer ✕",
+          footer_desc: "Club esport moderne avec matériel haut de gamme, bootcamps et tournois hebdomadaires. Ouvert 24h/24.",
+          footer_sitemap: "Plan du site", footer_contacts: "Contacts", footer_address: "44 rue de l'Indépendance, 2e étage",
+          footer_schedule: "Horaires : 24h/24 et 7j/7", footer_map: "Nous trouver",
+          footer_copy: "© 2026 CyberArena. Projet final en HTML, CSS et JavaScript."
+        },
+        it: {
+          nav_home: "Home", nav_pricing: "Tariffe e PC", nav_tournaments: "Tornei", nav_tournaments_full: "Tornei e foto", nav_register: "Registrazione",
+          btn_book: "Prenota", tour_title: "Prossimi tornei",
+          tour_subtitle: "Crea la tua squadra o registrati come free agent. Quota per team — 500 UAH.",
+          prize_pool: "montepremi", timer_loading: "Caricamento timer...",
+          tour_cs_1: "Formato: 5x5 Double Elimination", tour_cs_2: "Max team: 16", tour_cs_3: "Location: LAN, sala principale",
+          tour_dota_1: "Formato: 5x5 Captains Mode", tour_dota_2: "Max team: 12", tour_dota_3: "Diretta streaming della finale",
+          tour_val_1: "Formato: 5x5 Single Elimination", tour_val_2: "Max team: 8", tour_val_3: "Bonus dallo sponsor HyperX",
+          btn_apply: "Iscriviti", report_title: "Reportage fotografico dei match passati",
+          report_subtitle: "Clicca su qualsiasi foto per aprirla a schermo intero.", btn_close: "Chiudi ✕",
+          footer_desc: "Club esport moderno con hardware top, bootcamp e tornei settimanali. Aperto 24/7.",
+          footer_sitemap: "Mappa del sito", footer_contacts: "Contatti", footer_address: "Via dell'Indipendenza 44, 2° piano",
+          footer_schedule: "Orari: 24/7", footer_map: "Dove siamo",
+          footer_copy: "© 2026 CyberArena. Progetto finale in HTML, CSS e JavaScript."
+        }
+      };
+
+      const switcher = document.getElementById("langSwitcher");
+      function applyTourLang(lang) {
+        const dict = tourTranslations[lang] || tourTranslations.uk;
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) el.textContent = dict[key];
+        });
+        localStorage.setItem("cyberarena_lang", lang);
+      }
+
+      const savedLang = localStorage.getItem("cyberarena_lang") || "uk";
+      if (switcher) {
+        switcher.value = tourTranslations[savedLang] ? savedLang : "uk";
+        applyTourLang(switcher.value);
+        switcher.addEventListener("change", e => applyTourLang(e.target.value));
+      }
+    })();
+  </script>
+</body>
+</html>

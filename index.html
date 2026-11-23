@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberArena — Кіберспортивний клуб</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Интерактивность строк команд */
+    .ranking-table tbody tr.team-row {
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .ranking-table tbody tr.team-row:hover {
+      background-color: rgba(255, 46, 59, 0.08);
+    }
+    .team-badge-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+    .team-logo-img {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #1b1f2a;
+      border: 1px solid #2e3446;
+      padding: 4px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .click-hint {
+      font-size: 12px;
+      color: #8b949e;
+      font-weight: 400;
+      margin-left: 6px;
+    }
+
+    /* Модальное окно состава команды */
+    .team-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 10, 15, 0.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+    .team-modal-backdrop.open {
+      display: flex;
+    }
+    .team-modal {
+      background: #13161f;
+      border: 1px solid #262b38;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    }
+    .team-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #222634;
+      padding-bottom: 16px;
+      margin-bottom: 18px;
+    }
+    .team-modal-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      font-size: 22px;
+      color: #ffffff;
+    }
+    .team-modal-close {
+      background: #1c202d;
+      border: 1px solid #2d3345;
+      color: #c9d1d9;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .team-modal-close:hover {
+      border-color: #ff2e3b;
+      color: #ffffff;
+    }
+    .team-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: #181c27;
+      border: 1px solid #242938;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-box-label {
+      display: block;
+      font-size: 12px;
+      color: #8b949e;
+      margin-bottom: 4px;
+    }
+    .stat-box-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .roster-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .roster-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #181c27;
+      border: 1px solid #242938;
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .roster-player-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .roster-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top;
+      border: 1.5px solid #ff2e3b;
+      background: #11141c;
+    }
+    .roster-nick {
+      font-weight: 600;
+      color: #ffffff;
+      display: block;
+    }
+    .roster-role {
+      font-size: 12px;
+      color: #8b949e;
+    }
+    .roster-metrics {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: #c9d1d9;
+    }
+    .roster-metrics strong {
+      color: #ffffff;
+    }
+    @media (max-width: 560px) {
+      .team-stats-bar {
+        grid-template-columns: 1fr;
+      }
+      .roster-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ОБЩИЙ HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">CYBER<span>ARENA</span></a>
+
+      <nav class="nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link active" data-i18n="nav_home">Головна</a></li>
+          <li><a href="pricing.html" class="nav-link" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+          <li><a href="tournaments.html" class="nav-link" data-i18n="nav_tournaments">Турніри</a></li>
+          <li><a href="register.html" class="nav-link" data-i18n="nav_register">Реєстрація</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+        <select id="langSwitcher" aria-label="Вибір мови" style="background: #161922; color: #ffffff; border: 1px solid #2a2f3d; border-radius: 6px; padding: 8px 10px; font-size: 14px; font-weight: 600; cursor: pointer; outline: none;">
+          <option value="uk" selected>UA</option>
+          <option value="ru">RU</option>
+          <option value="en">EN</option>
+          <option value="pl">PL</option>
+          <option value="de">DE</option>
+          <option value="fr">FR</option>
+          <option value="it">IT</option>
+        </select>
+
+        <a href="pricing.html#calculator" class="btn btn-primary" data-i18n="btn_book">Забронювати</a>
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO БАННЕР -->
+    <section class="hero" style="background-image: linear-gradient(rgba(11, 13, 18, 0.82), rgba(11, 13, 18, 0.92)), url('img/hero.jpg'); background-size: cover; background-position: center;">
+      <div class="container">
+        <div class="hero-content">
+          <span class="hero-tag">24/7 • RTX 4080 • 360 Hz</span>
+          <h1 class="hero-title" data-i18n="hero_title">Професійний простір для твоїх перемог</h1>
+          <p class="hero-text" data-i18n="hero_text">
+            60 потужних ігрових станцій, ізольовані буткемп-кімнати для команд та регулярні локальні турніри з призовим фондом.
+          </p>
+          <div class="hero-buttons">
+            <a href="pricing.html" class="btn btn-primary" data-i18n="btn_choose_plan">Обрати тариф</a>
+            <a href="tournaments.html" class="btn btn-outline" data-i18n="btn_upcoming">Найближчі турніри</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕТКА ФОТОГАЛЕРЕИ 3x5 -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title" data-i18n="zones_title">Ігрові зони та обладнання</h2>
+        <p class="section-subtitle" data-i18n="zones_subtitle">Продумана ергономіка, тиша у VIP-кімнатах та топова периферія на кожному місці.</p>
+
+        <div class="gallery-grid-3x5">
+          <!-- Ряд 1 -->
+          <div class="grid-item"><img src="img/zone-1.jpg" alt="Загальний зал"><span class="grid-caption" data-i18n="zone_1">Основний зал</span></div>
+          <div class="grid-item"><img src="img/zone-2.jpg" alt="Монітори 360Hz"><span class="grid-caption" data-i18n="zone_2">Монітори 360 Hz</span></div>
+          <div class="grid-item"><img src="img/zone-3.jpg" alt="VIP Буткемп"><span class="grid-caption" data-i18n="zone_3">VIP-буткемп на 5 місць</span></div>
+          <div class="grid-item"><img src="img/zone-4.jpg" alt="Периферія Logitech"><span class="grid-caption" data-i18n="zone_4">Миші G Pro X</span></div>
+          <div class="grid-item"><img src="img/zone-5.jpg" alt="Клавіатури"><span class="grid-caption" data-i18n="zone_5">Механіка HyperX</span></div>
+
+          <!-- Ряд 2 -->
+          <div class="grid-item"><img src="img/zone-6.jpg" alt="Системні блоки"><span class="grid-caption" data-i18n="zone_6">RTX 4080 / i7-14700K</span></div>
+          <div class="grid-item"><img src="img/zone-7.jpg" alt="Навушники"><span class="grid-caption" data-i18n="zone_7">Звук 7.1</span></div>
+          <div class="grid-item"><img src="img/zone-8.jpg" alt="Турнірна сцена"><span class="grid-caption" data-i18n="zone_8">Головна турнірна сцена</span></div>
+          <div class="grid-item"><img src="img/zone-9.jpg" alt="Крісла"><span class="grid-caption" data-i18n="zone_9">Крісла DXRacer</span></div>
+          <div class="grid-item"><img src="img/zone-10.jpg" alt="Консольна зона"><span class="grid-caption" data-i18n="zone_10">Зона PS5 та 4K ТБ</span></div>
+
+          <!-- Ряд 3 -->
+          <div class="grid-item"><img src="img/zone-11.jpg" alt="Лаунж зона"><span class="grid-caption" data-i18n="zone_11">Лаунж та настільні ігри</span></div>
+          <div class="grid-item"><img src="img/zone-12.jpg" alt="Бар та напої"><span class="grid-caption" data-i18n="zone_12">Снек-бар</span></div>
+          <div class="grid-item"><img src="img/zone-13.jpg" alt="Ресепшен клубу"><span class="grid-caption" data-i18n="zone_13">Ресепшен та хол CyberArena</span></div>
+          <div class="grid-item"><img src="img/zone-14.jpg" alt="Стрім кімната"><span class="grid-caption" data-i18n="zone_14">Стрім-студія</span></div>
+          <div class="grid-item"><img src="img/zone-15.jpg" alt="Нічна посадка"><span class="grid-caption" data-i18n="zone_15">Нічний режим</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ТАБЛИЦА ТОП КОМАНД (КЛИКАБЕЛЬНАЯ) -->
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <h2 class="section-title" data-i18n="ranking_title">Топ команд кібер-арени</h2>
+        <p class="section-subtitle" data-i18n="ranking_subtitle">Натисніть на будь-яку команду, щоб переглянути її актуальний склад та детальну статистику гравців.</p>
+
+        <div class="table-wrapper">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th data-i18n="th_team">Команда</th>
+                <th data-i18n="th_discipline">Дисципліна</th>
+                <th data-i18n="th_wins">Перемоги</th>
+                <th style="text-align: right;" data-i18n="th_points">Очки рейтингу</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="team-row" data-team="falcons">
+                <td>1</td>
+                <td>
+                  <div class="team-badge-cell">
+                    <img src="img/Falcons.avif" alt="Team Falcons" class="team-logo-img">
+                    <span>Team Falcons</span>
+                    <span class="click-hint" data-i18n="click_roster">• склад</span>
+                  </div>
+                </td>
+                <td>Counter-Strike 2</td>
+                <td>54 <span data-i18n="matches_word">матчів</span></td>
+                <td><span class="score-badge">10 420</span></td>
+              </tr>
+              <tr class="team-row" data-team="spirit">
+                <td>2</td>
+                <td>
+                  <div class="team-badge-cell">
+                    <img src="img/Spirit.avif" alt="Team Spirit" class="team-logo-img">
+                    <span>Team Spirit</span>
+                    <span class="click-hint" data-i18n="click_roster">• склад</span>
+                  </div>
+                </td>
+                <td>Counter-Strike 2</td>
+                <td>51 <span data-i18n="matches_word">матчів</span></td>
+                <td><span class="score-badge">10 110</span></td>
+              </tr>
+              <tr class="team-row" data-team="navi">
+                <td>3</td>
+                <td>
+                  <div class="team-badge-cell">
+                    <img src="img/Navi.svg" alt="Natus Vincere" class="team-logo-img">
+                    <span>Natus Vincere</span>
+                    <span class="click-hint" data-i18n="click_roster">• склад</span>
+                  </div>
+                </td>
+                <td>Counter-Strike 2</td>
+                <td>48 <span data-i18n="matches_word">матчів</span></td>
+                <td><span class="score-badge">9 680</span></td>
+              </tr>
+              <tr class="team-row" data-team="g2">
+                <td>4</td>
+                <td>
+                  <div class="team-badge-cell">
+                    <img src="img/G2.avif" alt="G2 Esports" class="team-logo-img">
+                    <span>G2 Esports</span>
+                    <span class="click-hint" data-i18n="click_roster">• склад</span>
+                  </div>
+                </td>
+                <td>Counter-Strike 2</td>
+                <td>44 <span data-i18n="matches_word">матчів</span></td>
+                <td><span class="score-badge">9 120</span></td>
+              </tr>
+              <tr class="team-row" data-team="vitality">
+                <td>5</td>
+                <td>
+                  <div class="team-badge-cell">
+                    <img src="img/Vitality.avif" alt="Team Vitality" class="team-logo-img">
+                    <span>Team Vitality</span>
+                    <span class="click-hint" data-i18n="click_roster">• склад</span>
+                  </div>
+                </td>
+                <td>Counter-Strike 2</td>
+                <td>42 <span data-i18n="matches_word">матчів</span></td>
+                <td><span class="score-badge">8 890</span></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" data-i18n="total_score">Загальний рейтинг топ-5 команд ліги</td>
+                <td>48 220</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ПАРТНЁРЫ (ВСТРОЕННЫЕ SVG) -->
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <h2 class="section-title" data-i18n="partners_title">Технічні партнери</h2>
+        <div class="partners-grid">
+          <div class="partner-card" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff2e3b" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10h-6v4h-4v-8h8"/></svg>
+            <span>LOGITECH G</span>
+          </div>
+          <div class="partner-card" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff2e3b" stroke-width="2"><path d="M4 4v16M20 4v16M4 12h16"/></svg>
+            <span>HYPERX</span>
+          </div>
+          <div class="partner-card" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff2e3b" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+            <span>ASUS ROG</span>
+          </div>
+          <div class="partner-card" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff2e3b" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>INTEL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- МОДАЛЬНОЕ ОКНО СОСТАВА КОМАНДЫ -->
+  <div class="team-modal-backdrop" id="teamModalBackdrop">
+    <div class="team-modal" role="dialog" aria-modal="true" aria-labelledby="modalTeamName">
+      <div class="team-modal-header">
+        <h3 class="team-modal-title" id="modalTeamName">Team Falcons</h3>
+        <button class="team-modal-close" id="closeTeamModal" aria-label="Закрити">&times;</button>
+      </div>
+
+      <div class="team-stats-bar">
+        <div class="stat-box">
+          <span class="stat-box-label" data-i18n="modal_winrate">Вінрейт сезону</span>
+          <span class="stat-box-val" id="modalWinrate">76.4%</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-box-label" data-i18n="modal_kd">Середній K/D</span>
+          <span class="stat-box-val" id="modalKd">1.21</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-box-label" data-i18n="modal_trophies">Трофеї арени</span>
+          <span class="stat-box-val" id="modalTrophies">4</span>
+        </div>
+      </div>
+
+      <div class="roster-list" id="modalRosterList"></div>
+    </div>
+  </div>
+
+  <!-- ОБЩИЙ FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="logo" style="margin-bottom: 14px;">CYBER<span>ARENA</span></a>
+          <p class="footer-text" data-i18n="footer_desc">
+            Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_sitemap">Карта сайту</h3>
+          <ul class="footer-links">
+            <li><a href="index.html" data-i18n="nav_home">Головна</a></li>
+            <li><a href="pricing.html" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+            <li><a href="tournaments.html" data-i18n="nav_tournaments_full">Турніри та фото</a></li>
+            <li><a href="register.html" data-i18n="nav_register">Реєстрація</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_contacts">Контакти</h3>
+          <p class="footer-text" data-i18n="footer_address">вул. Незалежності, 44, 2 поверх</p>
+          <p class="footer-text" data-i18n="footer_schedule">Графік: 24/7 без вихідних</p>
+          <p class="footer-text">Тел: +38 (099) 555-35-35</p>
+          <p class="footer-text">info@cyberarena.ua</p>
+        </div>
+
+        <div class="footer-map">
+          <h3 class="footer-title" data-i18n="footer_map">Ми на карті</h3>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.842793961157!2d24.711117!3d48.922633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4730c16c34b0381d%3A0xd6d32394e59e41c2!2z0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQuiwg0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCA3NjAwMA!5e0!3m2!1suk!2sua!4v1700000000000"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Карта проїзду CyberArena">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="footer-bottom" data-i18n="footer_copy">
+        &copy; 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript.
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      /* Функция генерации аккуратной SVG-заглушки с инициалами, если файл не найден */
+      function makeAvatarFallback(initials) {
+        return "data:image/svg+xml;utf8," + encodeURIComponent(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+            <rect width="80" height="80" fill="#1e2330"/>
+            <text x="50%" y="54%" fill="#ff2e3b" font-family="Arial,sans-serif" font-size="24" font-weight="bold" text-anchor="middle">${initials}</text>
+          </svg>`
+        );
+      }
+
+      /* Данные 5 топ-команд с логотипами и аватарами игроков из папки img/ */
+      const teamsData = {
+        falcons: {
+          tag: "FLC",
+          logo: "img/Falcons.avif",
+          name: "Team Falcons",
+          winrate: "76.4%",
+          kd: "1.21",
+          trophies: "4",
+          players: [
+            { nick: "NiKo", role: "Rifler / Entry", rating: "1.24", kd: "1.26", img: "img/NiKo.avif", initials: "NK" },
+            { nick: "m0NESY", role: "AWPer", rating: "1.28", kd: "1.32", img: "img/m0NESY.avif", initials: "M0" },
+            { nick: "TeSeS", role: "Rifler", rating: "1.12", kd: "1.14", img: "img/TeSeS.avif", initials: "TS" },
+            { nick: "kyousuke", role: "Rifler / Lurker", rating: "1.15", kd: "1.17", img: "img/kyousuke.avif", initials: "KY" },
+            { nick: "karrigan", role: "In-Game Leader", rating: "1.04", kd: "1.02", img: "img/karrigan.avif", initials: "KR" }
+          ]
+        },
+        spirit: {
+          tag: "TS",
+          logo: "img/Spirit.avif",
+          name: "Team Spirit",
+          winrate: "74.1%",
+          kd: "1.19",
+          trophies: "3",
+          players: [
+            { nick: "donk", role: "Entry Fragger", rating: "1.34", kd: "1.38", img: "img/donk.avif", initials: "DK" },
+            { nick: "sh1ro", role: "AWPer", rating: "1.22", kd: "1.29", img: "img/sh1ro.avif", initials: "SH" },
+            { nick: "tN1R", role: "Rifler / Entry", rating: "1.14", kd: "1.16", img: "img/tN1R.avif", initials: "TN" },
+            { nick: "zont1x", role: "Rifler / Anchor", rating: "1.09", kd: "1.11", img: "img/zont1x.avif", initials: "ZN" },
+            { nick: "magixx", role: "Support / IGL", rating: "1.06", kd: "1.08", img: "img/magixx.avif", initials: "MG" }
+          ]
+        },
+        navi: {
+          tag: "NAVI",
+          logo: "img/Navi.svg",
+          name: "Natus Vincere",
+          winrate: "70.8%",
+          kd: "1.15",
+          trophies: "3",
+          players: [
+            { nick: "b1t", role: "Rifler", rating: "1.18", kd: "1.21", img: "img/b1t.avif", initials: "B1" },
+            { nick: "w0nderful", role: "AWPer", rating: "1.16", kd: "1.22", img: "img/w0nderful.avif", initials: "W0" },
+            { nick: "makazze", role: "Entry Fragger", rating: "1.15", kd: "1.17", img: "img/makazze.avif", initials: "MK" },
+            { nick: "iM", role: "Rifler", rating: "1.11", kd: "1.12", img: "img/iM.avif", initials: "IM" },
+            { nick: "Aleksib", role: "In-Game Leader", rating: "1.02", kd: "0.99", img: "img/Aleksib.avif", initials: "AL" }
+          ]
+        },
+        g2: {
+          tag: "G2",
+          logo: "img/G2.avif",
+          name: "G2 Esports",
+          winrate: "67.5%",
+          kd: "1.12",
+          trophies: "2",
+          players: [
+            { nick: "MATYS", role: "Entry Fragger", rating: "1.17", kd: "1.19", img: "img/MATYS.avif", initials: "MT" },
+            { nick: "huNter-", role: "Rifler / Lurker", rating: "1.11", kd: "1.13", img: "img/huNter-.avif", initials: "HN" },
+            { nick: "HeavyGod", role: "Anchor", rating: "1.12", kd: "1.15", img: "img/HeavyGod.avif", initials: "HG" },
+            { nick: "NertZ", role: "Rifler", rating: "1.14", kd: "1.15", img: "img/NertZ.avif", initials: "NZ" },
+            { nick: "r1nkle", role: "AWPer", rating: "1.13", kd: "1.18", img: "img/r1nkle.avif", initials: "RN" }
+          ]
+        },
+        vitality: {
+          tag: "VIT",
+          logo: "img/Vitality.avif",
+          name: "Team Vitality",
+          winrate: "66.2%",
+          kd: "1.14",
+          trophies: "2",
+          players: [
+            { nick: "ZywOo", role: "AWPer / Star", rating: "1.31", kd: "1.35", img: "img/ZywOo.avif", initials: "ZW" },
+            { nick: "ropz", role: "Lurker", rating: "1.17", kd: "1.21", img: "img/ropz.avif", initials: "RP" },
+            { nick: "flameZ", role: "Entry Fragger", rating: "1.13", kd: "1.14", img: "img/flameZ.avif", initials: "FL" },
+            { nick: "mezii", role: "Support / Anchor", rating: "1.06", kd: "1.07", img: "img/mezii.avif", initials: "MZ" },
+            { nick: "apEX", role: "In-Game Leader", rating: "1.00", kd: "0.96", img: "img/apEX.avif", initials: "AP" }
+          ]
+        }
+      };
+
+      /* Логика открытия и закрытия модального окна */
+      const backdrop = document.getElementById("teamModalBackdrop");
+      const closeBtn = document.getElementById("closeTeamModal");
+      const modalName = document.getElementById("modalTeamName");
+      const modalWinrate = document.getElementById("modalWinrate");
+      const modalKd = document.getElementById("modalKd");
+      const modalTrophies = document.getElementById("modalTrophies");
+      const rosterList = document.getElementById("modalRosterList");
+
+      function openTeamModal(teamKey) {
+        const team = teamsData[teamKey];
+        if (!team) return;
+
+        modalName.innerHTML = `<img src="${team.logo}" alt="${team.name}" class="team-logo-img"><span>${team.name}</span>`;
+        modalWinrate.textContent = team.winrate;
+        modalKd.textContent = team.kd;
+        modalTrophies.textContent = team.trophies;
+
+        rosterList.innerHTML = team.players.map(p => `
+          <div class="roster-item">
+            <div class="roster-player-info">
+              <img src="${p.img}" alt="${p.nick}" class="roster-avatar" onerror="this.onerror=null;this.src='${makeAvatarFallback(p.initials)}'">
+              <div>
+                <span class="roster-nick">${p.nick}</span>
+                <span class="roster-role">${p.role}</span>
+              </div>
+            </div>
+            <div class="roster-metrics">
+              <span>Rating: <strong>${p.rating}</strong></span>
+              <span>K/D: <strong>${p.kd}</strong></span>
+            </div>
+          </div>
+        `).join("");
+
+        backdrop.classList.add("open");
+      }
+
+      document.querySelectorAll(".team-row").forEach(row => {
+        row.addEventListener("click", () => {
+          openTeamModal(row.getAttribute("data-team"));
+        });
+      });
+
+      closeBtn.addEventListener("click", () => backdrop.classList.remove("open"));
+      backdrop.addEventListener("click", e => {
+        if (e.target === backdrop) backdrop.classList.remove("open");
+      });
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") backdrop.classList.remove("open");
+      });
+
+      /* Мультиязычность (UA по умолчанию + 6 языков) */
+      const indexTranslations = {
+        uk: {
+          nav_home: "Головна", nav_pricing: "Тарифи та ПК", nav_tournaments: "Турніри", nav_tournaments_full: "Турніри та фото", nav_register: "Реєстрація",
+          btn_book: "Забронювати", hero_title: "Професійний простір для твоїх перемог",
+          hero_text: "60 потужних ігрових станцій, ізольовані буткемп-кімнати для команд та регулярні локальні турніри з призовим фондом.",
+          btn_choose_plan: "Обрати тариф", btn_upcoming: "Найближчі турніри",
+          zones_title: "Ігрові зони та обладнання", zones_subtitle: "Продумана ергономіка, тиша у VIP-кімнатах та топова периферія на кожному місці.",
+          zone_1: "Основний зал", zone_2: "Монітори 360 Hz", zone_3: "VIP-буткемп на 5 місць", zone_4: "Миші G Pro X", zone_5: "Механіка HyperX",
+          zone_6: "RTX 4080 / i7-14700K", zone_7: "Звук 7.1", zone_8: "Головна турнірна сцена", zone_9: "Крісла DXRacer", zone_10: "Зона PS5 та 4K ТБ",
+          zone_11: "Лаунж та настільні ігри", zone_12: "Снек-бар", zone_13: "Ресепшен та хол CyberArena", zone_14: "Стрім-студія", zone_15: "Нічний режим",
+          ranking_title: "Топ команд кібер-арени", ranking_subtitle: "Натисніть на будь-яку команду, щоб переглянути її актуальний склад та детальну статистику гравців.",
+          th_team: "Команда", th_discipline: "Дисципліна", th_wins: "Перемоги", th_points: "Очки рейтингу", matches_word: "матчів",
+          click_roster: "• склад", total_score: "Загальний рейтинг топ-5 команд ліги", partners_title: "Технічні партнери",
+          modal_winrate: "Вінрейт сезону", modal_kd: "Середній K/D", modal_trophies: "Трофеї арени",
+          footer_desc: "Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.",
+          footer_sitemap: "Карта сайту", footer_contacts: "Контакти", footer_address: "вул. Незалежності, 44, 2 поверх",
+          footer_schedule: "Графік: 24/7 без вихідних", footer_map: "Ми на карті",
+          footer_copy: "© 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript."
+        },
+        ru: {
+          nav_home: "Главная", nav_pricing: "Тарифы и ПК", nav_tournaments: "Турниры", nav_tournaments_full: "Турниры и фото", nav_register: "Регистрация",
+          btn_book: "Забронировать", hero_title: "Профессиональное пространство для твоих побед",
+          hero_text: "60 мощных игровых станций, изолированные буткемп-комнаты для команд и регулярные локальные турниры с призовым фондом.",
+          btn_choose_plan: "Выбрать тариф", btn_upcoming: "Ближайшие турниры",
+          zones_title: "Игровые зоны и оборудование", zones_subtitle: "Продуманная эргономика, тишина в VIP-комнатах и топовая периферия на каждом месте.",
+          zone_1: "Основной зал", zone_2: "Мониторы 360 Hz", zone_3: "VIP-буткемп на 5 мест", zone_4: "Мыши G Pro X", zone_5: "Механика HyperX",
+          zone_6: "RTX 4080 / i7-14700K", zone_7: "Звук 7.1", zone_8: "Главная турнирная сцена", zone_9: "Кресла DXRacer", zone_10: "Зона PS5 и 4K ТВ",
+          zone_11: "Лаунж и настолки", zone_12: "Снек-бар", zone_13: "Ресепшен и холл CyberArena", zone_14: "Стрим-студия", zone_15: "Ночной режим",
+          ranking_title: "Топ команд кибер-арены", ranking_subtitle: "Нажмите на любую команду, чтобы посмотреть её актуальный состав и подробную статистику игроков.",
+          th_team: "Команда", th_discipline: "Дисциплина", th_wins: "Победы", th_points: "Очки рейтинга", matches_word: "матчей",
+          click_roster: "• состав", total_score: "Общий рейтинг топ-5 команд лиги", partners_title: "Технические партнёры",
+          modal_winrate: "Винрейт сезона", modal_kd: "Средний K/D", modal_trophies: "Трофеи арены",
+          footer_desc: "Современный киберспортивный клуб с топовым железом, буткемпами и еженедельными турнирами. Работаем круглосуточно.",
+          footer_sitemap: "Карта сайта", footer_contacts: "Контакты", footer_address: "ул. Независимости, 44, 2 этаж",
+          footer_schedule: "График: 24/7 без выходных", footer_map: "Мы на карте",
+          footer_copy: "© 2026 CyberArena. Учебный финальный проект по HTML, CSS и JavaScript."
+        },
+        en: {
+          nav_home: "Home", nav_pricing: "Pricing & PCs", nav_tournaments: "Tournaments", nav_tournaments_full: "Tournaments & Gallery", nav_register: "Registration",
+          btn_book: "Book Now", hero_title: "Professional Space for Your Victories",
+          hero_text: "60 high-end gaming stations, isolated team bootcamp rooms, and regular local tournaments with prize pools.",
+          btn_choose_plan: "Choose Plan", btn_upcoming: "Upcoming Tournaments",
+          zones_title: "Gaming Zones & Hardware", zones_subtitle: "Thoughtful ergonomics, quiet VIP rooms, and pro-grade peripherals at every seat.",
+          zone_1: "Main Hall", zone_2: "360 Hz Monitors", zone_3: "5-Seat VIP Bootcamp", zone_4: "G Pro X Mice", zone_5: "HyperX Mechanical",
+          zone_6: "RTX 4080 / i7-14700K", zone_7: "7.1 Surround Sound", zone_8: "Main Tournament Stage", zone_9: "DXRacer Chairs", zone_10: "PS5 & 4K TV Zone",
+          zone_11: "Lounge & Board Games", zone_12: "Snack Bar", zone_13: "CyberArena Reception", zone_14: "Stream Studio", zone_15: "Night Pass",
+          ranking_title: "Top Arena Teams", ranking_subtitle: "Click on any team to view its current roster and detailed player statistics.",
+          th_team: "Team", th_discipline: "Discipline", th_wins: "Wins", th_points: "Rating Points", matches_word: "matches",
+          click_roster: "• roster", total_score: "Total Top-5 League Rating", partners_title: "Technical Partners",
+          modal_winrate: "Season Winrate", modal_kd: "Average K/D", modal_trophies: "Arena Trophies",
+          footer_desc: "Modern esports club with top-tier hardware, bootcamps, and weekly tournaments. Open 24/7.",
+          footer_sitemap: "Sitemap", footer_contacts: "Contacts", footer_address: "44 Nezalezhnosti St, 2nd Floor",
+          footer_schedule: "Hours: 24/7 non-stop", footer_map: "Find Us",
+          footer_copy: "© 2026 CyberArena. Final educational project in HTML, CSS & JavaScript."
+        },
+        pl: {
+          nav_home: "Główna", nav_pricing: "Cennik i PC", nav_tournaments: "Turnieje", nav_tournaments_full: "Turnieje i zdjęcia", nav_register: "Rejestracja",
+          btn_book: "Zarezerwuj", hero_title: "Profesjonalna przestrzeń dla Twoich zwycięstw",
+          hero_text: "60 mocnych stanowisk gamingowych, izolowane pokoje bootcamp dla drużyn i regularne turnieje lokalne z pulą nagród.",
+          btn_choose_plan: "Wybierz pakiet", btn_upcoming: "Najbliższe turnieje",
+          zones_title: "Strefy gier i sprzęt", zones_subtitle: "Przemyślana ergonomia, cisza w pokojach VIP i topowe peryferia na każdym stanowisku.",
+          zone_1: "Sala główna", zone_2: "Monitory 360 Hz", zone_3: "VIP Bootcamp 5 miejsc", zone_4: "Myszki G Pro X", zone_5: "Mechanika HyperX",
+          zone_6: "RTX 4080 / i7-14700K", zone_7: "Dźwięk 7.1", zone_8: "Główna scena turniejowa", zone_9: "Fotele DXRacer", zone_10: "Strefa PS5 i TV 4K",
+          zone_11: "Strefa Lounge", zone_12: "Snack-bar", zone_13: "Recepcja i hol CyberArena", zone_14: "Studio stream", zone_15: "Tryb nocny",
+          ranking_title: "Top drużyn cyber-areny", ranking_subtitle: "Kliknij dowolną drużynę, aby zobaczyć jej aktualny skład i szczegółowe statystyki graczy.",
+          th_team: "Drużyna", th_discipline: "Dyscyplina", th_wins: "Wygrane", th_points: "Punkty", matches_word: "meczów",
+          click_roster: "• skład", total_score: "Łączny ranking top-5 drużyn", partners_title: "Partnerzy techniczni",
+          modal_winrate: "Winrate sezonu", modal_kd: "Średnie K/D", modal_trophies: "Trofea areny",
+          footer_desc: "Nowoczesny klub e-sportowy z topowym sprzętem, bootcampami i cotygodniowymi turniejami. Czynne 24/7.",
+          footer_sitemap: "Mapa strony", footer_contacts: "Kontakt", footer_address: "ul. Niepodległości 44, 2 piętro",
+          footer_schedule: "Godziny: 24/7 bez przerwy", footer_map: "Mapa dojazdu",
+          footer_copy: "© 2026 CyberArena. Finałowy projekt edukacyjny z HTML, CSS i JavaScript."
+        },
+        de: {
+          nav_home: "Startseite", nav_pricing: "Preise & PCs", nav_tournaments: "Turniere", nav_tournaments_full: "Turniere & Fotos", nav_register: "Registrierung",
+          btn_book: "Buchen", hero_title: "Professioneller Raum für deine Siege",
+          hero_text: "60 leistungsstarke Gaming-Stationen, isolierte Bootcamp-Räume für Teams und regelmäßige lokale Turniere mit Preisgeld.",
+          btn_choose_plan: "Tarif wählen", btn_upcoming: "Kommende Turniere",
+          zones_title: "Gaming-Zonen & Hardware", zones_subtitle: "Durchdachte Ergonomie, Ruhe in den VIP-Räumen und Top-Peripherie an jedem Platz.",
+          zone_1: "Haupthalle", zone_2: "360 Hz Monitore", zone_3: "5er VIP-Bootcamp", zone_4: "G Pro X Mäuse", zone_5: "HyperX Mechanik",
+          zone_6: "RTX 4080 / i7-14700K", zone_7: "7.1 Raumklang", zone_8: "Hauptturnierbühne", zone_9: "DXRacer Stühle", zone_10: "PS5 & 4K TV Zone",
+          zone_11: "Lounge & Brettspiele", zone_12: "Snackbar", zone_13: "CyberArena Rezeption", zone_14: "Stream-Studio", zone_15: "Nachtmodus",
+          ranking_title: "Top-Teams der Arena", ranking_subtitle: "Klicke auf ein Team, um das aktuelle Line-up und detaillierte Spielerstatistiken anzuzeigen.",
+          th_team: "Team", th_discipline: "Disziplin", th_wins: "Siege", th_points: "Punkte", matches_word: "Spiele",
+          click_roster: "• Kader", total_score: "Gesamtwertung der Top-5 Teams", partners_title: "Technische Partner",
+          modal_winrate: "Saison-Siegquote", modal_kd: "Durchschnitt K/D", modal_trophies: "Arena-Trophäen",
+          footer_desc: "Moderner E-Sport-Club mit Top-Hardware, Bootcamps und wöchentlichen Turnieren. Rund um die Uhr geöffnet.",
+          footer_sitemap: "Sitemap", footer_contacts: "Kontakt", footer_address: "Unabhängigkeitsstr. 44, 2. Stock",
+          footer_schedule: "Öffnungszeiten: 24/7", footer_map: "Standort",
+          footer_copy: "© 2026 CyberArena. Abschlussprojekt in HTML, CSS und JavaScript."
+        },
+        fr: {
+          nav_home: "Accueil", nav_pricing: "Tarifs & PC", nav_tournaments: "Tournois", nav_tournaments_full: "Tournois & Photos", nav_register: "Inscription",
+          btn_book: "Réserver", hero_title: "Un espace professionnel pour vos victoires",
+          hero_text: "60 stations de jeu puissantes, salles bootcamp isolées pour les équipes et tournois locaux réguliers avec cashprize.",
+          btn_choose_plan: "Choisir un tarif", btn_upcoming: "Prochains tournois",
+          zones_title: "Zones de jeu & équipement", zones_subtitle: "Ergonomie étudiée, calme dans les salles VIP et périphériques haut de gamme à chaque poste.",
+          zone_1: "Salle principale", zone_2: "Écrans 360 Hz", zone_3: "Bootcamp VIP 5 places", zone_4: "Souris G Pro X", zone_5: "Claviers HyperX",
+          zone_6: "RTX 4080 / i7-14700K", zone_7: "Son 7.1", zone_8: "Scène principale", zone_9: "Sièges DXRacer", zone_10: "Zone PS5 & TV 4K",
+          zone_11: "Espace Lounge", zone_12: "Snack-bar", zone_13: "Accueil CyberArena", zone_14: "Studio Stream", zone_15: "Mode nuit",
+          ranking_title: "Meilleures équipes de l'arène", ranking_subtitle: "Cliquez sur une équipe pour voir sa composition actuelle et les statistiques détaillées.",
+          th_team: "Équipe", th_discipline: "Discipline", th_wins: "Victoires", th_points: "Points", matches_word: "matchs",
+          click_roster: "• effectif", total_score: "Score global du top 5", partners_title: "Partenaires techniques",
+          modal_winrate: "Taux de victoire", modal_kd: "K/D moyen", modal_trophies: "Trophées",
+          footer_desc: "Club esport moderne avec matériel haut de gamme, bootcamps et tournois hebdomadaires. Ouvert 24h/24.",
+          footer_sitemap: "Plan du site", footer_contacts: "Contacts", footer_address: "44 rue de l'Indépendance, 2e étage",
+          footer_schedule: "Horaires : 24h/24 et 7j/7", footer_map: "Nous trouver",
+          footer_copy: "© 2026 CyberArena. Projet final en HTML, CSS et JavaScript."
+        },
+        it: {
+          nav_home: "Home", nav_pricing: "Tariffe e PC", nav_tournaments: "Tornei", nav_tournaments_full: "Tornei e foto", nav_register: "Registrazione",
+          btn_book: "Prenota", hero_title: "Spazio professionale per le tue vittorie",
+          hero_text: "60 postazioni da gaming potenti, sale bootcamp isolate per team e tornei locali regolari con montepremi.",
+          btn_choose_plan: "Scegli tariffa", btn_upcoming: "Prossimi tornei",
+          zones_title: "Zone di gioco e attrezzatura", zones_subtitle: "Ergonomia studiata, silenzio nelle sale VIP e periferiche top in ogni postazione.",
+          zone_1: "Sala principale", zone_2: "Monitor 360 Hz", zone_3: "Bootcamp VIP 5 posti", zone_4: "Mouse G Pro X", zone_5: "Meccanica HyperX",
+          zone_6: "RTX 4080 / i7-14700K", zone_7: "Audio 7.1", zone_8: "Palco tornei principale", zone_9: "Sedie DXRacer", zone_10: "Zona PS5 e TV 4K",
+          zone_11: "Area Lounge", zone_12: "Snack-bar", zone_13: "Reception CyberArena", zone_14: "Studio Stream", zone_15: "Modalità notte",
+          ranking_title: "Top team dell'arena", ranking_subtitle: "Clicca su qualsiasi team per visualizzare il roster attuale e le statistiche dettagliate.",
+          th_team: "Team", th_discipline: "Disciplina", th_wins: "Vittorie", th_points: "Punti", matches_word: "partite",
+          click_roster: "• roster", total_score: "Punteggio totale top 5", partners_title: "Partner tecnici",
+          modal_winrate: "Winrate stagionale", modal_kd: "K/D medio", modal_trophies: "Trofei arena",
+          footer_desc: "Club esport moderno con hardware top, bootcamp e tornei settimanali. Aperto 24/7.",
+          footer_sitemap: "Mappa del sito", footer_contacts: "Contatti", footer_address: "Via dell'Indipendenza 44, 2° piano",
+          footer_schedule: "Orari: 24/7", footer_map: "Dove siamo",
+          footer_copy: "© 2026 CyberArena. Progetto finale in HTML, CSS e JavaScript."
+        }
+      };
+
+      const switcher = document.getElementById("langSwitcher");
+      function applyIndexLang(lang) {
+        const dict = indexTranslations[lang] || indexTranslations.uk;
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) el.textContent = dict[key];
+        });
+        localStorage.setItem("cyberarena_lang", lang);
+      }
+
+      const savedLang = localStorage.getItem("cyberarena_lang") || "uk";
+      if (switcher) {
+        switcher.value = indexTranslations[savedLang] ? savedLang : "uk";
+        applyIndexLang(switcher.value);
+        switcher.addEventListener("change", e => applyIndexLang(e.target.value));
+      }
+    })();
+  </script>
+</body>
+</html>

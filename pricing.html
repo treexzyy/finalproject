@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тарифи та ПК — CyberArena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ОБЩИЙ HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">CYBER<span>ARENA</span></a>
+
+      <nav class="nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link" data-i18n="nav_home">Головна</a></li>
+          <li><a href="pricing.html" class="nav-link active" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+          <li><a href="tournaments.html" class="nav-link" data-i18n="nav_tournaments">Турніри</a></li>
+          <li><a href="register.html" class="nav-link" data-i18n="nav_register">Реєстрація</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+        <select id="langSwitcher" aria-label="Вибір мови" style="background: #161922; color: #ffffff; border: 1px solid #2a2f3d; border-radius: 6px; padding: 8px 10px; font-size: 14px; font-weight: 600; cursor: pointer; outline: none;">
+          <option value="uk" selected>UA</option>
+          <option value="ru">RU</option>
+          <option value="en">EN</option>
+          <option value="pl">PL</option>
+          <option value="de">DE</option>
+          <option value="fr">FR</option>
+          <option value="it">IT</option>
+        </select>
+
+        <a href="#calculator" class="btn btn-primary" data-i18n="btn_book">Забронювати</a>
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- КАРТОЧКИ ТАРИФОВ -->
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title" data-i18n="pricing_title">Тарифи та конфігурації ПК</h1>
+        <p class="section-subtitle" data-i18n="pricing_subtitle">Обирай зону під свої завдання: від вечірнього пабліку до командного буткемпу.</p>
+
+        <div class="cards-grid">
+          <div class="card">
+            <img src="img/tariff-standard.jpg" alt="Тариф Стандарт" class="card-img">
+            <div class="card-body">
+              <h3 class="card-title" data-i18n="tier_std_title">Стандарт</h3>
+              <div class="card-price">80 грн <span data-i18n="per_hour">/ година</span></div>
+              <ul class="card-list">
+                <li>Intel Core i5-13400F + RTX 4060</li>
+                <li data-i18n="tier_std_mon">Монітор 24" 240 Hz IPS</li>
+                <li>Logitech G Pro X / HyperX Cloud II</li>
+                <li data-i18n="tier_std_hall">Загальний ігровий зал (30 місць)</li>
+              </ul>
+              <a href="#calculator" class="btn btn-outline" data-i18n="btn_calc_cost">Розрахувати вартість</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="img/zone-3.jpg" alt="Тариф VIP BootCamp" class="card-img">
+            <div class="card-body">
+              <h3 class="card-title" data-i18n="tier_vip_title">VIP BootCamp</h3>
+              <div class="card-price">130 грн <span data-i18n="per_hour">/ година</span></div>
+              <ul class="card-list">
+                <li>Intel Core i7-14700K + RTX 4080</li>
+                <li data-i18n="tier_vip_mon">Монітор 25" 360 Hz Fast IPS</li>
+                <li data-i18n="tier_vip_room">Ізольована кімната на 5 гравців</li>
+                <li data-i18n="tier_vip_chair">Крісла DXRacer + клімат-контроль</li>
+              </ul>
+              <a href="#calculator" class="btn btn-primary" data-i18n="btn_book_vip">Забронювати VIP</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="img/zone-10.jpg" alt="Тариф PS5 Lounge" class="card-img">
+            <div class="card-body">
+              <h3 class="card-title" data-i18n="tier_ps_title">PS5 Lounge</h3>
+              <div class="card-price">150 грн <span data-i18n="per_hour">/ година</span></div>
+              <ul class="card-list">
+                <li data-i18n="tier_ps_tv">Телевізор 65" 4K OLED 120 Hz</li>
+                <li data-i18n="tier_ps_pad">До 4 геймпадів DualSense у комплекті</li>
+                <li>EA Sports FC 26, UFC 5, Mortal Kombat 1</li>
+                <li data-i18n="tier_ps_sofa">М'який диван для компанії</li>
+              </ul>
+              <a href="#calculator" class="btn btn-outline" data-i18n="btn_book_lounge">Забронювати лаунж</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- КАЛЬКУЛЯТОР СТОИМОСТИ БРОНИ -->
+    <section class="section" id="calculator" style="padding-top: 0;">
+      <div class="container">
+        <div class="calc-box">
+          <h2 class="section-title" style="font-size: 24px;" data-i18n="calc_title">Калькулятор бронювання</h2>
+          <p class="section-subtitle" style="margin-bottom: 24px;" data-i18n="calc_subtitle">
+            Розрахуй підсумкову суму заздалегідь. При бронюванні від 5 годин діє знижка 15%.
+          </p>
+
+          <div class="calc-grid">
+            <div class="form-group">
+              <label for="zoneSelect" data-i18n="calc_zone_lbl">Оберіть ігрову зону</label>
+              <select id="zoneSelect" class="form-control">
+                <option value="80" data-i18n="opt_std">Стандарт (80 грн/год)</option>
+                <option value="130" data-i18n="opt_vip">VIP BootCamp (130 грн/год)</option>
+                <option value="150" data-i18n="opt_ps">PS5 Lounge (150 грн/год)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="hoursInput" data-i18n="calc_hours_lbl">Кількість годин (1–24)</label>
+              <input type="number" id="hoursInput" class="form-control" min="1" max="24" value="3">
+            </div>
+
+            <div class="form-group">
+              <label for="pcCountInput" data-i18n="calc_pcs_lbl">Кількість місць / консолей</label>
+              <input type="number" id="pcCountInput" class="form-control" min="1" max="10" value="1">
+            </div>
+          </div>
+
+          <div class="calc-result">
+            <div>
+              <div style="color: var(--text-muted); font-size: 13px;" data-i18n="calc_total_lbl">Підсумкова вартість:</div>
+              <div class="calc-total" id="calcTotal">240 грн</div>
+            </div>
+            <a href="register.html" class="btn btn-primary" data-i18n="calc_confirm">Перейти до оформлення</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ОБЩИЙ FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="logo" style="margin-bottom: 14px;">CYBER<span>ARENA</span></a>
+          <p class="footer-text" data-i18n="footer_desc">
+            Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_sitemap">Карта сайту</h3>
+          <ul class="footer-links">
+            <li><a href="index.html" data-i18n="nav_home">Головна</a></li>
+            <li><a href="pricing.html" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+            <li><a href="tournaments.html" data-i18n="nav_tournaments_full">Турніри та фото</a></li>
+            <li><a href="register.html" data-i18n="nav_register">Реєстрація</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_contacts">Контакти</h3>
+          <p class="footer-text" data-i18n="footer_address">вул. Незалежності, 44, 2 поверх</p>
+          <p class="footer-text" data-i18n="footer_schedule">Графік: 24/7 без вихідних</p>
+          <p class="footer-text">Тел: +38 (099) 555-35-35</p>
+          <p class="footer-text">info@cyberarena.ua</p>
+        </div>
+
+        <div class="footer-map">
+          <h3 class="footer-title" data-i18n="footer_map">Ми на карті</h3>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.842793961157!2d24.711117!3d48.922633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4730c16c34b0381d%3A0xd6d32394e59e41c2!2z0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQuiwg0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCA3NjAwMA!5e0!3m2!1suk!2sua!4v1700000000000"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Карта проїзду CyberArena">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="footer-bottom" data-i18n="footer_copy">
+        &copy; 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript.
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const pricingTranslations = {
+        uk: {
+          nav_home: "Головна", nav_pricing: "Тарифи та ПК", nav_tournaments: "Турніри", nav_tournaments_full: "Турніри та фото", nav_register: "Реєстрація",
+          btn_book: "Забронювати", pricing_title: "Тарифи та конфігурації ПК",
+          pricing_subtitle: "Обирай зону під свої завдання: від вечірнього пабліку до командного буткемпу.",
+          tier_std_title: "Стандарт", per_hour: "/ година", tier_std_mon: "Монітор 24\" 240 Hz IPS",
+          tier_std_hall: "Загальний ігровий зал (30 місць)", btn_calc_cost: "Розрахувати вартість",
+          tier_vip_title: "VIP BootCamp", tier_vip_mon: "Монітор 25\" 360 Hz Fast IPS",
+          tier_vip_room: "Ізольована кімната на 5 гравців", tier_vip_chair: "Крісла DXRacer + клімат-контроль",
+          btn_book_vip: "Забронювати VIP", tier_ps_title: "PS5 Lounge",
+          tier_ps_tv: "Телевізор 65\" 4K OLED 120 Hz", tier_ps_pad: "До 4 геймпадів DualSense у комплекті",
+          tier_ps_sofa: "М'який диван для компанії", btn_book_lounge: "Забронювати лаунж",
+          calc_title: "Калькулятор бронювання",
+          calc_subtitle: "Розрахуй підсумкову суму заздалегідь. При бронюванні від 5 годин діє знижка 15%.",
+          calc_zone_lbl: "Оберіть ігрову зону", opt_std: "Стандарт (80 грн/год)",
+          opt_vip: "VIP BootCamp (130 грн/год)", opt_ps: "PS5 Lounge (150 грн/год)",
+          calc_hours_lbl: "Кількість годин (1–24)", calc_pcs_lbl: "Кількість місць / консолей",
+          calc_total_lbl: "Підсумкова вартість:", calc_confirm: "Перейти до оформлення",
+          footer_desc: "Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.",
+          footer_sitemap: "Карта сайту", footer_contacts: "Контакти", footer_address: "вул. Незалежності, 44, 2 поверх",
+          footer_schedule: "Графік: 24/7 без вихідних", footer_map: "Ми на карті",
+          footer_copy: "© 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript."
+        },
+        ru: {
+          nav_home: "Главная", nav_pricing: "Тарифы и ПК", nav_tournaments: "Турниры", nav_tournaments_full: "Турниры и фото", nav_register: "Регистрация",
+          btn_book: "Забронировать", pricing_title: "Тарифы и конфигурации ПК",
+          pricing_subtitle: "Выбирай зону под свои задачи: от вечернего паблика до командного буткемпа.",
+          tier_std_title: "Стандарт", per_hour: "/ час", tier_std_mon: "Монитор 24\" 240 Hz IPS",
+          tier_std_hall: "Общий игровой зал (30 мест)", btn_calc_cost: "Рассчитать стоимость",
+          tier_vip_title: "VIP BootCamp", tier_vip_mon: "Монитор 25\" 360 Hz Fast IPS",
+          tier_vip_room: "Изолированная комната на 5 игроков", tier_vip_chair: "Кресла DXRacer + климат-контроль",
+          btn_book_vip: "Забронировать VIP", tier_ps_title: "PS5 Lounge",
+          tier_ps_tv: "Телевизор 65\" 4K OLED 120 Hz", tier_ps_pad: "До 4 геймпадов DualSense в комплекте",
+          tier_ps_sofa: "Мягкий диван для компании", btn_book_lounge: "Забронировать лаунж",
+          calc_title: "Калькулятор бронирования",
+          calc_subtitle: "Рассчитай итоговую сумму заранее. При бронировании от 5 часов действует скидка 15%.",
+          calc_zone_lbl: "Выберите игровую зону", opt_std: "Стандарт (80 грн/час)",
+          opt_vip: "VIP BootCamp (130 грн/час)", opt_ps: "PS5 Lounge (150 грн/час)",
+          calc_hours_lbl: "Количество часов (1–24)", calc_pcs_lbl: "Количество мест / консолей",
+          calc_total_lbl: "Итоговая стоимость:", calc_confirm: "Перейти к оформлению",
+          footer_desc: "Современный киберспортивный клуб с топовым железом, буткемпами и еженедельными турнирами. Работаем круглосуточно.",
+          footer_sitemap: "Карта сайта", footer_contacts: "Контакты", footer_address: "ул. Независимости, 44, 2 этаж",
+          footer_schedule: "График: 24/7 без выходных", footer_map: "Мы на карте",
+          footer_copy: "© 2026 CyberArena. Учебный финальный проект по HTML, CSS и JavaScript."
+        },
+        en: {
+          nav_home: "Home", nav_pricing: "Pricing & PCs", nav_tournaments: "Tournaments", nav_tournaments_full: "Tournaments & Gallery", nav_register: "Registration",
+          btn_book: "Book Now", pricing_title: "Pricing & PC Specs",
+          pricing_subtitle: "Choose a zone for your goals: from casual evening games to team bootcamps.",
+          tier_std_title: "Standard", per_hour: "/ hour", tier_std_mon: "24\" 240 Hz IPS Monitor",
+          tier_std_hall: "Main Gaming Hall (30 seats)", btn_calc_cost: "Calculate Cost",
+          tier_vip_title: "VIP BootCamp", tier_vip_mon: "25\" 360 Hz Fast IPS Monitor",
+          tier_vip_room: "Isolated 5-player bootcamp room", tier_vip_chair: "DXRacer chairs + climate control",
+          btn_book_vip: "Book VIP", tier_ps_title: "PS5 Lounge",
+          tier_ps_tv: "65\" 4K OLED 120 Hz TV", tier_ps_pad: "Up to 4 DualSense controllers included",
+          tier_ps_sofa: "Comfortable sofa for friends", btn_book_lounge: "Book Lounge",
+          calc_title: "Booking Calculator",
+          calc_subtitle: "Calculate your total in advance. Get 15% off when booking 5+ hours.",
+          calc_zone_lbl: "Select Gaming Zone", opt_std: "Standard (80 UAH/hr)",
+          opt_vip: "VIP BootCamp (130 UAH/hr)", opt_ps: "PS5 Lounge (150 UAH/hr)",
+          calc_hours_lbl: "Number of Hours (1–24)", calc_pcs_lbl: "Seats / Consoles",
+          calc_total_lbl: "Total Cost:", calc_confirm: "Proceed to Booking",
+          footer_desc: "Modern esports club with top-tier hardware, bootcamps, and weekly tournaments. Open 24/7.",
+          footer_sitemap: "Sitemap", footer_contacts: "Contacts", footer_address: "44 Nezalezhnosti St, 2nd Floor",
+          footer_schedule: "Hours: 24/7 non-stop", footer_map: "Find Us",
+          footer_copy: "© 2026 CyberArena. Final educational project in HTML, CSS & JavaScript."
+        },
+        pl: {
+          nav_home: "Główna", nav_pricing: "Cennik i PC", nav_tournaments: "Turnieje", nav_tournaments_full: "Turnieje i zdjęcia", nav_register: "Rejestracja",
+          btn_book: "Zarezerwuj", pricing_title: "Cennik i konfiguracje PC",
+          pricing_subtitle: "Wybierz strefę dla siebie: od wieczornej gry po drużynowy bootcamp.",
+          tier_std_title: "Standard", per_hour: "/ godz.", tier_std_mon: "Monitor 24\" 240 Hz IPS",
+          tier_std_hall: "Główna sala gier (30 stanowisk)", btn_calc_cost: "Oblicz koszt",
+          tier_vip_title: "VIP BootCamp", tier_vip_mon: "Monitor 25\" 360 Hz Fast IPS",
+          tier_vip_room: "Izolowany pokój dla 5 graczy", tier_vip_chair: "Fotele DXRacer + klimatyzacja",
+          btn_book_vip: "Zarezerwuj VIP", tier_ps_title: "PS5 Lounge",
+          tier_ps_tv: "Telewizor 65\" 4K OLED 120 Hz", tier_ps_pad: "Do 4 padów DualSense w zestawie",
+          tier_ps_sofa: "Wygodna sofa dla znajomych", btn_book_lounge: "Zarezerwuj lounge",
+          calc_title: "Kalkulator rezerwacji",
+          calc_subtitle: "Oblicz kwotę z wyprzedzeniem. Przy rezerwacji od 5 godzin zniżka 15%.",
+          calc_zone_lbl: "Wybierz strefę gry", opt_std: "Standard (80 UAH/godz.)",
+          opt_vip: "VIP BootCamp (130 UAH/godz.)", opt_ps: "PS5 Lounge (150 UAH/godz.)",
+          calc_hours_lbl: "Liczba godzin (1–24)", calc_pcs_lbl: "Liczba miejsc / konsol",
+          calc_total_lbl: "Koszt całkowity:", calc_confirm: "Przejdź do rezerwacji",
+          footer_desc: "Nowoczesny klub e-sportowy z topowym sprzętem, bootcampami i cotygodniowymi turniejami. Czynne 24/7.",
+          footer_sitemap: "Mapa strony", footer_contacts: "Kontakt", footer_address: "ul. Niepodległości 44, 2 piętro",
+          footer_schedule: "Godziny: 24/7 bez przerwy", footer_map: "Mapa dojazdu",
+          footer_copy: "© 2026 CyberArena. Finałowy projekt edukacyjny z HTML, CSS i JavaScript."
+        },
+        de: {
+          nav_home: "Startseite", nav_pricing: "Preise & PCs", nav_tournaments: "Turniere", nav_tournaments_full: "Turniere & Fotos", nav_register: "Registrierung",
+          btn_book: "Buchen", pricing_title: "Preise & PC-Konfigurationen",
+          pricing_subtitle: "Wähle deine Zone: vom entspannten Abendspiel bis zum Team-Bootcamp.",
+          tier_std_title: "Standard", per_hour: "/ Std.", tier_std_mon: "24\" 240 Hz IPS-Monitor",
+          tier_std_hall: "Hauptspielhalle (30 Plätze)", btn_calc_cost: "Kosten berechnen",
+          tier_vip_title: "VIP BootCamp", tier_vip_mon: "25\" 360 Hz Fast IPS-Monitor",
+          tier_vip_room: "Isolierter Raum für 5 Spieler", tier_vip_chair: "DXRacer-Stühle + Klimaanlage",
+          btn_book_vip: "VIP buchen", tier_ps_title: "PS5 Lounge",
+          tier_ps_tv: "65\" 4K OLED 120 Hz TV", tier_ps_pad: "Bis zu 4 DualSense-Controller inklusive",
+          tier_ps_sofa: "Bequemes Sofa für Gruppen", btn_book_lounge: "Lounge buchen",
+          calc_title: "Buchungsrechner",
+          calc_subtitle: "Berechne den Gesamtpreis im Voraus. Ab 5 Stunden 15% Rabatt.",
+          calc_zone_lbl: "Spielzone wählen", opt_std: "Standard (80 UAH/Std.)",
+          opt_vip: "VIP BootCamp (130 UAH/Std.)", opt_ps: "PS5 Lounge (150 UAH/Std.)",
+          calc_hours_lbl: "Anzahl der Stunden (1–24)", calc_pcs_lbl: "Plätze / Konsolen",
+          calc_total_lbl: "Gesamtkosten:", calc_confirm: "Zur Buchung",
+          footer_desc: "Moderner E-Sport-Club mit Top-Hardware, Bootcamps und wöchentlichen Turnieren. Rund um die Uhr geöffnet.",
+          footer_sitemap: "Sitemap", footer_contacts: "Kontakt", footer_address: "Unabhängigkeitsstr. 44, 2. Stock",
+          footer_schedule: "Öffnungszeiten: 24/7", footer_map: "Standort",
+          footer_copy: "© 2026 CyberArena. Abschlussprojekt in HTML, CSS und JavaScript."
+        },
+        fr: {
+          nav_home: "Accueil", nav_pricing: "Tarifs & PC", nav_tournaments: "Tournois", nav_tournaments_full: "Tournois & Photos", nav_register: "Inscription",
+          btn_book: "Réserver", pricing_title: "Tarifs et configurations PC",
+          pricing_subtitle: "Choisissez votre zone : de la partie détente au bootcamp d'équipe.",
+          tier_std_title: "Standard", per_hour: "/ heure", tier_std_mon: "Écran 24\" 240 Hz IPS",
+          tier_std_hall: "Salle principale (30 postes)", btn_calc_cost: "Calculer le coût",
+          tier_vip_title: "VIP BootCamp", tier_vip_mon: "Écran 25\" 360 Hz Fast IPS",
+          tier_vip_room: "Salle isolée pour 5 joueurs", tier_vip_chair: "Sièges DXRacer + climatisation",
+          btn_book_vip: "Réserver VIP", tier_ps_title: "PS5 Lounge",
+          tier_ps_tv: "TV 65\" 4K OLED 120 Hz", tier_ps_pad: "Jusqu'à 4 manettes DualSense incluses",
+          tier_ps_sofa: "Canapé confortable pour groupe", btn_book_lounge: "Réserver le lounge",
+          calc_title: "Calculateur de réservation",
+          calc_subtitle: "Calculez le montant total à l'avance. -15% dès 5 heures réservées.",
+          calc_zone_lbl: "Choisissez la zone", opt_std: "Standard (80 UAH/h)",
+          opt_vip: "VIP BootCamp (130 UAH/h)", opt_ps: "PS5 Lounge (150 UAH/h)",
+          calc_hours_lbl: "Nombre d'heures (1–24)", calc_pcs_lbl: "Places / Consoles",
+          calc_total_lbl: "Coût total :", calc_confirm: "Passer à la réservation",
+          footer_desc: "Club esport moderne avec matériel haut de gamme, bootcamps et tournois hebdomadaires. Ouvert 24h/24.",
+          footer_sitemap: "Plan du site", footer_contacts: "Contacts", footer_address: "44 rue de l'Indépendance, 2e étage",
+          footer_schedule: "Horaires : 24h/24 et 7j/7", footer_map: "Nous trouver",
+          footer_copy: "© 2026 CyberArena. Projet final en HTML, CSS et JavaScript."
+        },
+        it: {
+          nav_home: "Home", nav_pricing: "Tariffe e PC", nav_tournaments: "Tornei", nav_tournaments_full: "Tornei e foto", nav_register: "Registrazione",
+          btn_book: "Prenota", pricing_title: "Tariffe e configurazioni PC",
+          pricing_subtitle: "Scegli la zona adatta a te: dalla partita serale al bootcamp di squadra.",
+          tier_std_title: "Standard", per_hour: "/ ora", tier_std_mon: "Monitor 24\" 240 Hz IPS",
+          tier_std_hall: "Sala principale (30 postazioni)", btn_calc_cost: "Calcola costo",
+          tier_vip_title: "VIP BootCamp", tier_vip_mon: "Monitor 25\" 360 Hz Fast IPS",
+          tier_vip_room: "Stanza isolata per 5 giocatori", tier_vip_chair: "Sedie DXRacer + climatizzatore",
+          btn_book_vip: "Prenota VIP", tier_ps_title: "PS5 Lounge",
+          tier_ps_tv: "TV 65\" 4K OLED 120 Hz", tier_ps_pad: "Fino a 4 controller DualSense inclusi",
+          tier_ps_sofa: "Comodo divano per gruppi", btn_book_lounge: "Prenota lounge",
+          calc_title: "Calcolatore prenotazione",
+          calc_subtitle: "Calcola il totale in anticipo. Sconto del 15% prenotando almeno 5 ore.",
+          calc_zone_lbl: "Scegli la zona di gioco", opt_std: "Standard (80 UAH/ora)",
+          opt_vip: "VIP BootCamp (130 UAH/ora)", opt_ps: "PS5 Lounge (150 UAH/ora)",
+          calc_hours_lbl: "Numero di ore (1–24)", calc_pcs_lbl: "Postazioni / Console",
+          calc_total_lbl: "Costo totale:", calc_confirm: "Procedi alla prenotazione",
+          footer_desc: "Club esport moderno con hardware top, bootcamp e tornei settimanali. Aperto 24/7.",
+          footer_sitemap: "Mappa del sito", footer_contacts: "Contatti", footer_address: "Via dell'Indipendenza 44, 2° piano",
+          footer_schedule: "Orari: 24/7", footer_map: "Dove siamo",
+          footer_copy: "© 2026 CyberArena. Progetto finale in HTML, CSS e JavaScript."
+        }
+      };
+
+      const switcher = document.getElementById("langSwitcher");
+      function applyPricingLang(lang) {
+        const dict = pricingTranslations[lang] || pricingTranslations.uk;
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) el.textContent = dict[key];
+        });
+        localStorage.setItem("cyberarena_lang", lang);
+      }
+
+      const savedLang = localStorage.getItem("cyberarena_lang") || "uk";
+      if (switcher) {
+        switcher.value = pricingTranslations[savedLang] ? savedLang : "uk";
+        applyPricingLang(switcher.value);
+        switcher.addEventListener("change", e => applyPricingLang(e.target.value));
+      }
+    })();
+  </script>
+</body>
+</html>

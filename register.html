@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Реєстрація та контакти — CyberArena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ОБЩИЙ HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">CYBER<span>ARENA</span></a>
+
+      <nav class="nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link" data-i18n="nav_home">Головна</a></li>
+          <li><a href="pricing.html" class="nav-link" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+          <li><a href="tournaments.html" class="nav-link" data-i18n="nav_tournaments">Турніри</a></li>
+          <li><a href="register.html" class="nav-link active" data-i18n="nav_register">Реєстрація</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+        <select id="langSwitcher" aria-label="Вибір мови" style="background: #161922; color: #ffffff; border: 1px solid #2a2f3d; border-radius: 6px; padding: 8px 10px; font-size: 14px; font-weight: 600; cursor: pointer; outline: none;">
+          <option value="uk" selected>UA</option>
+          <option value="ru">RU</option>
+          <option value="en">EN</option>
+          <option value="pl">PL</option>
+          <option value="de">DE</option>
+          <option value="fr">FR</option>
+          <option value="it">IT</option>
+        </select>
+
+        <a href="pricing.html#calculator" class="btn btn-primary" data-i18n="btn_book">Забронювати</a>
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title" data-i18n="reg_title">Реєстрація гравця та команди</h1>
+        <p class="section-subtitle" data-i18n="reg_subtitle">Заповни анкету для участі в турнірах, створення клубного акаунту або бронювання буткемпу.</p>
+
+        <div class="form-card">
+          <form class="form-grid" id="regForm">
+            <!-- text -->
+            <div class="form-group">
+              <label for="login" data-i18n="lbl_login">Ігровий нікнейм (Логін) *</label>
+              <input type="text" id="login" name="login" class="form-control" placeholder="Наприклад: Andriy_Pro" data-i18n-placeholder="ph_login" required>
+            </div>
+
+            <!-- password -->
+            <div class="form-group">
+              <label for="password" data-i18n="lbl_password">Пароль від клубного ПК *</label>
+              <input type="password" id="password" name="password" class="form-control" placeholder="Мінімум 6 символів" data-i18n-placeholder="ph_password" minlength="6" required>
+            </div>
+
+            <!-- email -->
+            <div class="form-group">
+              <label for="email" data-i18n="lbl_email">Електронна пошта *</label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="player@example.com" required>
+            </div>
+
+            <!-- tel -->
+            <div class="form-group">
+              <label for="phone" data-i18n="lbl_phone">Контактний телефон *</label>
+              <input type="tel" id="phone" name="phone" class="form-control" placeholder="+38 (099) 000-00-00" required>
+            </div>
+
+            <!-- url -->
+            <div class="form-group">
+              <label for="profileUrl" data-i18n="lbl_url">Посилання на Steam / Faceit профіль</label>
+              <input type="url" id="profileUrl" name="profileUrl" class="form-control" placeholder="https://steamcommunity.com/id/...">
+            </div>
+
+            <!-- search -->
+            <div class="form-group">
+              <label for="gameSearch" data-i18n="lbl_search">Пошук бажаної гри</label>
+              <input type="search" id="gameSearch" name="gameSearch" class="form-control" placeholder="Введіть назву гри..." data-i18n-placeholder="ph_search">
+            </div>
+
+            <!-- select -->
+            <div class="form-group">
+              <label for="discipline" data-i18n="lbl_discipline">Основна дисципліна</label>
+              <select id="discipline" name="discipline" class="form-control">
+                <option value="Counter-Strike 2">Counter-Strike 2</option>
+                <option value="Dota 2">Dota 2</option>
+                <option value="Valorant">Valorant</option>
+                <option value="Apex Legends">Apex Legends</option>
+              </select>
+            </div>
+
+            <!-- number -->
+            <div class="form-group">
+              <label for="playersCount" data-i18n="lbl_players">Кількість гравців (від 1 до 5)</label>
+              <input type="number" id="playersCount" name="playersCount" class="form-control" min="1" max="5" value="5">
+            </div>
+
+            <!-- date -->
+            <div class="form-group">
+              <label for="visitDate" data-i18n="lbl_date">Дата першого візиту / матчу</label>
+              <input type="date" id="visitDate" name="visitDate" class="form-control">
+            </div>
+
+            <!-- time -->
+            <div class="form-group">
+              <label for="visitTime" data-i18n="lbl_time">Бажаний час старту</label>
+              <input type="time" id="visitTime" name="visitTime" class="form-control" value="18:00">
+            </div>
+
+            <!-- range -->
+            <div class="form-group">
+              <label for="skillRange"><span data-i18n="lbl_skill">Оцінка свого рівня гри:</span> <span id="skillValue" style="color: var(--accent);">5 / 10</span></label>
+              <input type="range" id="skillRange" name="skillRange" min="1" max="10" value="5">
+            </div>
+
+            <!-- file -->
+            <div class="form-group">
+              <label for="teamLogo" data-i18n="lbl_logo">Завантажити аватар або логотип команди</label>
+              <input type="file" id="teamLogo" name="teamLogo" class="form-control" accept="image/*">
+            </div>
+
+            <!-- radio -->
+            <div class="form-group full-width">
+              <label data-i18n="lbl_format">Формат участі:</label>
+              <div class="radio-row">
+                <label class="choice-pill">
+                  <input type="radio" name="role" value="captain" checked>
+                  <span data-i18n="role_captain">Капітан команди</span>
+                </label>
+                <label class="choice-pill">
+                  <input type="radio" name="role" value="solo">
+                  <span data-i18n="role_solo">Одиночний гравець (Solo)</span>
+                </label>
+                <label class="choice-pill">
+                  <input type="radio" name="role" value="guest">
+                  <span data-i18n="role_guest">Звичайне відвідування клубу</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- checkbox -->
+            <div class="form-group full-width">
+              <label data-i18n="lbl_extra">Додатково:</label>
+              <div class="checkbox-row">
+                <label class="choice-pill">
+                  <input type="checkbox" name="rules" required>
+                  <span data-i18n="chk_rules">Погоджуюсь із правилами клубу *</span>
+                </label>
+                <label class="choice-pill">
+                  <input type="checkbox" name="notify">
+                  <span data-i18n="chk_notify">Повідомляти про нові турніри в Telegram</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- submit & reset -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" data-i18n="btn_submit">Надіслати заявку</button>
+              <button type="reset" class="btn btn-outline" data-i18n="btn_reset">Очистити форму</button>
+            </div>
+
+            <div class="form-status" id="formStatus"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ОБЩИЙ FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="logo" style="margin-bottom: 14px;">CYBER<span>ARENA</span></a>
+          <p class="footer-text" data-i18n="footer_desc">
+            Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_sitemap">Карта сайту</h3>
+          <ul class="footer-links">
+            <li><a href="index.html" data-i18n="nav_home">Головна</a></li>
+            <li><a href="pricing.html" data-i18n="nav_pricing">Тарифи та ПК</a></li>
+            <li><a href="tournaments.html" data-i18n="nav_tournaments_full">Турніри та фото</a></li>
+            <li><a href="register.html" data-i18n="nav_register">Реєстрація</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-title" data-i18n="footer_contacts">Контакти</h3>
+          <p class="footer-text" data-i18n="footer_address">вул. Незалежності, 44, 2 поверх</p>
+          <p class="footer-text" data-i18n="footer_schedule">Графік: 24/7 без вихідних</p>
+          <p class="footer-text">Тел: +38 (099) 555-35-35</p>
+          <p class="footer-text">info@cyberarena.ua</p>
+        </div>
+
+        <div class="footer-map">
+          <h3 class="footer-title" data-i18n="footer_map">Ми на карті</h3>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.842793961157!2d24.711117!3d48.922633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4730c16c34b0381d%3A0xd6d32394e59e41c2!2z0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQuiwg0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCA3NjAwMA!5e0!3m2!1suk!2sua!4v1700000000000"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Карта проїзду CyberArena">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="footer-bottom" data-i18n="footer_copy">
+        &copy; 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript.
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const regTranslations = {
+        uk: {
+          nav_home: "Головна", nav_pricing: "Тарифи та ПК", nav_tournaments: "Турніри", nav_tournaments_full: "Турніри та фото", nav_register: "Реєстрація",
+          btn_book: "Забронювати", reg_title: "Реєстрація гравця та команди",
+          reg_subtitle: "Заповни анкету для участі в турнірах, створення клубного акаунту або бронювання буткемпу.",
+          lbl_login: "Ігровий нікнейм (Логін) *", ph_login: "Наприклад: Andriy_Pro",
+          lbl_password: "Пароль від клубного ПК *", ph_password: "Мінімум 6 символів",
+          lbl_email: "Електронна пошта *", lbl_phone: "Контактний телефон *",
+          lbl_url: "Посилання на Steam / Faceit профіль", lbl_search: "Пошук бажаної гри", ph_search: "Введіть назву гри...",
+          lbl_discipline: "Основна дисципліна", lbl_players: "Кількість гравців (від 1 до 5)",
+          lbl_date: "Дата першого візиту / матчу", lbl_time: "Бажаний час старту",
+          lbl_skill: "Оцінка свого рівня гри:", lbl_logo: "Завантажити аватар або логотип команди",
+          lbl_format: "Формат участі:", role_captain: "Капітан команди", role_solo: "Одиночний гравець (Solo)", role_guest: "Звичайне відвідування клубу",
+          lbl_extra: "Додатково:", chk_rules: "Погоджуюсь із правилами клубу *", chk_notify: "Повідомляти про нові турніри в Telegram",
+          btn_submit: "Надіслати заявку", btn_reset: "Очистити форму",
+          footer_desc: "Сучасний кіберспортивний клуб із топовим залізом, буткемпами та щотижневими турнірами. Працюємо цілодобово.",
+          footer_sitemap: "Карта сайту", footer_contacts: "Контакти", footer_address: "вул. Незалежності, 44, 2 поверх",
+          footer_schedule: "Графік: 24/7 без вихідних", footer_map: "Ми на карті",
+          footer_copy: "© 2026 CyberArena. Навчальний фінальний проєкт з HTML, CSS та JavaScript."
+        },
+        ru: {
+          nav_home: "Главная", nav_pricing: "Тарифы и ПК", nav_tournaments: "Турниры", nav_tournaments_full: "Турниры и фото", nav_register: "Регистрация",
+          btn_book: "Забронировать", reg_title: "Регистрация игрока и команды",
+          reg_subtitle: "Заполни анкету для участия в турнирах, создания клубного аккаунта или бронирования буткемпа.",
+          lbl_login: "Игровой никнейм (Логин) *", ph_login: "Например: Andriy_Pro",
+          lbl_password: "Пароль от клубного ПК *", ph_password: "Минимум 6 символов",
+          lbl_email: "Электронная почта *", lbl_phone: "Контактный телефон *",
+          lbl_url: "Ссылка на Steam / Faceit профиль", lbl_search: "Поиск предпочитаемой игры", ph_search: "Введите название игры...",
+          lbl_discipline: "Основная дисциплина", lbl_players: "Количество игроков (от 1 до 5)",
+          lbl_date: "Дата первого визита / матча", lbl_time: "Желаемое время старта",
+          lbl_skill: "Оценка своего уровня игры:", lbl_logo: "Загрузить аватар или логотип команды",
+          lbl_format: "Формат участия:", role_captain: "Капитан команды", role_solo: "Одиночный игрок (Solo)", role_guest: "Обычное посещение клуба",
+          lbl_extra: "Дополнительно:", chk_rules: "Согласен с правилами клуба *", chk_notify: "Уведомлять о новых турнирах в Telegram",
+          btn_submit: "Отправить заявку", btn_reset: "Очистить форму",
+          footer_desc: "Современный киберспортивный клуб с топовым железом, буткемпами и еженедельными турнирами. Работаем круглосуточно.",
+          footer_sitemap: "Карта сайта", footer_contacts: "Контакты", footer_address: "ул. Независимости, 44, 2 этаж",
+          footer_schedule: "График: 24/7 без выходных", footer_map: "Мы на карте",
+          footer_copy: "© 2026 CyberArena. Учебный финальный проект по HTML, CSS и JavaScript."
+        },
+        en: {
+          nav_home: "Home", nav_pricing: "Pricing & PCs", nav_tournaments: "Tournaments", nav_tournaments_full: "Tournaments & Gallery", nav_register: "Registration",
+          btn_book: "Book Now", reg_title: "Player & Team Registration",
+          reg_subtitle: "Fill out the form to join tournaments, create a club account, or book a bootcamp room.",
+          lbl_login: "In-game Nickname (Login) *", ph_login: "Example: Andriy_Pro",
+          lbl_password: "Club PC Password *", ph_password: "Minimum 6 characters",
+          lbl_email: "Email Address *", lbl_phone: "Contact Phone *",
+          lbl_url: "Steam / Faceit Profile Link", lbl_search: "Search Preferred Game", ph_search: "Enter game title...",
+          lbl_discipline: "Main Discipline", lbl_players: "Number of Players (1 to 5)",
+          lbl_date: "First Visit / Match Date", lbl_time: "Preferred Start Time",
+          lbl_skill: "Self-assessed Skill Level:", lbl_logo: "Upload Avatar or Team Logo",
+          lbl_format: "Participation Format:", role_captain: "Team Captain", role_solo: "Solo Player", role_guest: "Regular Club Visit",
+          lbl_extra: "Additional Options:", chk_rules: "I agree to the club rules *", chk_notify: "Notify about new tournaments on Telegram",
+          btn_submit: "Submit Application", btn_reset: "Clear Form",
+          footer_desc: "Modern esports club with top-tier hardware, bootcamps, and weekly tournaments. Open 24/7.",
+          footer_sitemap: "Sitemap", footer_contacts: "Contacts", footer_address: "44 Nezalezhnosti St, 2nd Floor",
+          footer_schedule: "Hours: 24/7 non-stop", footer_map: "Find Us",
+          footer_copy: "© 2026 CyberArena. Final educational project in HTML, CSS & JavaScript."
+        },
+        pl: {
+          nav_home: "Główna", nav_pricing: "Cennik i PC", nav_tournaments: "Turnieje", nav_tournaments_full: "Turnieje i zdjęcia", nav_register: "Rejestracja",
+          btn_book: "Zarezerwuj", reg_title: "Rejestracja gracza i drużyny",
+          reg_subtitle: "Wypełnij formularz, aby wziąć udział w turniejach, założyć konto klubowe lub zarezerwować bootcamp.",
+          lbl_login: "Nick w grze (Login) *", ph_login: "Np.: Andriy_Pro",
+          lbl_password: "Hasło do PC klubowego *", ph_password: "Minimum 6 znaków",
+          lbl_email: "Adres e-mail *", lbl_phone: "Telefon kontaktowy *",
+          lbl_url: "Link do profilu Steam / Faceit", lbl_search: "Szukaj preferowanej gry", ph_search: "Wpisz nazwę gry...",
+          lbl_discipline: "Główna dyscyplina", lbl_players: "Liczba graczy (od 1 do 5)",
+          lbl_date: "Data pierwszej wizyty / meczu", lbl_time: "Preferowana godzina startu",
+          lbl_skill: "Ocena własnego poziomu gry:", lbl_logo: "Prześlij awatar lub logo drużyny",
+          lbl_format: "Format udziału:", role_captain: "Kapitan drużyny", role_solo: "Gracz indywidualny (Solo)", role_guest: "Zwykła wizyta w klubie",
+          lbl_extra: "Dodatkowo:", chk_rules: "Akceptuję regulamin klubu *", chk_notify: "Powiadamiaj o nowych turniejach na Telegramie",
+          btn_submit: "Wyślij zgłoszenie", btn_reset: "Wyczyść formularz",
+          footer_desc: "Nowoczesny klub e-sportowy z topowym sprzętem, bootcampami i cotygodniowymi turniejami. Czynne 24/7.",
+          footer_sitemap: "Mapa strony", footer_contacts: "Kontakt", footer_address: "ul. Niepodległości 44, 2 piętro",
+          footer_schedule: "Godziny: 24/7 bez przerwy", footer_map: "Mapa dojazdu",
+          footer_copy: "© 2026 CyberArena. Finałowy projekt edukacyjny z HTML, CSS i JavaScript."
+        },
+        de: {
+          nav_home: "Startseite", nav_pricing: "Preise & PCs", nav_tournaments: "Turniere", nav_tournaments_full: "Turniere & Fotos", nav_register: "Registrierung",
+          btn_book: "Buchen", reg_title: "Spieler- und Teamregistrierung",
+          reg_subtitle: "Fülle das Formular aus, um an Turnieren teilzunehmen, ein Clubkonto zu erstellen oder ein Bootcamp zu buchen.",
+          lbl_login: "Ingame-Nickname (Login) *", ph_login: "Beispiel: Andriy_Pro",
+          lbl_password: "Club-PC-Passwort *", ph_password: "Mindestens 6 Zeichen",
+          lbl_email: "E-Mail-Adresse *", lbl_phone: "Telefonnummer *",
+          lbl_url: "Steam- / Faceit-Profillink", lbl_search: "Lieblingsspiel suchen", ph_search: "Spieltitel eingeben...",
+          lbl_discipline: "Hauptdisziplin", lbl_players: "Anzahl der Spieler (1 bis 5)",
+          lbl_date: "Datum des ersten Besuchs / Matches", lbl_time: "Gewünschte Startzeit",
+          lbl_skill: "Selbsteinschätzung des Spielniveaus:", lbl_logo: "Avatar oder Teamlogo hochladen",
+          lbl_format: "Teilnahmeformat:", role_captain: "Teamkapitän", role_solo: "Einzelspieler (Solo)", role_guest: "Regulärer Clubbesuch",
+          lbl_extra: "Zusätzlich:", chk_rules: "Ich akzeptiere die Clubregeln *", chk_notify: "Über neue Turniere auf Telegram informieren",
+          btn_submit: "Anmeldung absenden", btn_reset: "Formular zurücksetzen",
+          footer_desc: "Moderner E-Sport-Club mit Top-Hardware, Bootcamps und wöchentlichen Turnieren. Rund um die Uhr geöffnet.",
+          footer_sitemap: "Sitemap", footer_contacts: "Kontakt", footer_address: "Unabhängigkeitsstr. 44, 2. Stock",
+          footer_schedule: "Öffnungszeiten: 24/7", footer_map: "Standort",
+          footer_copy: "© 2026 CyberArena. Abschlussprojekt in HTML, CSS und JavaScript."
+        },
+        fr: {
+          nav_home: "Accueil", nav_pricing: "Tarifs & PC", nav_tournaments: "Tournois", nav_tournaments_full: "Tournois & Photos", nav_register: "Inscription",
+          btn_book: "Réserver", reg_title: "Inscription joueur et équipe",
+          reg_subtitle: "Remplissez le formulaire pour participer aux tournois, créer un compte club ou réserver un bootcamp.",
+          lbl_login: "Pseudo en jeu (Identifiant) *", ph_login: "Exemple : Andriy_Pro",
+          lbl_password: "Mot de passe PC du club *", ph_password: "Minimum 6 caractères",
+          lbl_email: "Adresse e-mail *", lbl_phone: "Téléphone de contact *",
+          lbl_url: "Lien profil Steam / Faceit", lbl_search: "Rechercher un jeu préféré", ph_search: "Entrez le nom du jeu...",
+          lbl_discipline: "Discipline principale", lbl_players: "Nombre de joueurs (1 à 5)",
+          lbl_date: "Date de première visite / match", lbl_time: "Heure de début souhaitée",
+          lbl_skill: "Évaluation de votre niveau :", lbl_logo: "Télécharger un avatar ou logo d'équipe",
+          lbl_format: "Format de participation :", role_captain: "Capitaine d'équipe", role_solo: "Joueur solo", role_guest: "Visite classique du club",
+          lbl_extra: "Options supplémentaires :", chk_rules: "J'accepte le règlement du club *", chk_notify: "Notifier les nouveaux tournois sur Telegram",
+          btn_submit: "Envoyer la demande", btn_reset: "Effacer le formulaire",
+          footer_desc: "Club esport moderne avec matériel haut de gamme, bootcamps et tournois hebdomadaires. Ouvert 24h/24.",
+          footer_sitemap: "Plan du site", footer_contacts: "Contacts", footer_address: "44 rue de l'Indépendance, 2e étage",
+          footer_schedule: "Horaires : 24h/24 et 7j/7", footer_map: "Nous trouver",
+          footer_copy: "© 2026 CyberArena. Projet final en HTML, CSS et JavaScript."
+        },
+        it: {
+          nav_home: "Home", nav_pricing: "Tariffe e PC", nav_tournaments: "Tornei", nav_tournaments_full: "Tornei e foto", nav_register: "Registrazione",
+          btn_book: "Prenota", reg_title: "Registrazione giocatore e team",
+          reg_subtitle: "Compila il modulo per partecipare ai tornei, creare un account club o prenotare un bootcamp.",
+          lbl_login: "Nickname in gioco (Login) *", ph_login: "Esempio: Andriy_Pro",
+          lbl_password: "Password PC del club *", ph_password: "Minimo 6 caratteri",
+          lbl_email: "Indirizzo e-mail *", lbl_phone: "Telefono di contatto *",
+          lbl_url: "Link profilo Steam / Faceit", lbl_search: "Cerca gioco preferito", ph_search: "Inserisci il nome del gioco...",
+          lbl_discipline: "Disciplina principale", lbl_players: "Numero di giocatori (da 1 a 5)",
+          lbl_date: "Data prima visita / match", lbl_time: "Orario di inizio preferito",
+          lbl_skill: "Valutazione del tuo livello:", lbl_logo: "Carica avatar o logo del team",
+          lbl_format: "Formato di partecipazione:", role_captain: "Capitano del team", role_solo: "Giocatore singolo (Solo)", role_guest: "Visita normale al club",
+          lbl_extra: "Opzioni aggiuntive:", chk_rules: "Accetto il regolamento del club *", chk_notify: "Avvisami sui nuovi tornei su Telegram",
+          btn_submit: "Invia richiesta", btn_reset: "Cancella modulo",
+          footer_desc: "Club esport moderno con hardware top, bootcamp e tornei settimanali. Aperto 24/7.",
+          footer_sitemap: "Mappa del sito", footer_contacts: "Contatti", footer_address: "Via dell'Indipendenza 44, 2° piano",
+          footer_schedule: "Orari: 24/7", footer_map: "Dove siamo",
+          footer_copy: "© 2026 CyberArena. Progetto finale in HTML, CSS e JavaScript."
+        }
+      };
+
+      const switcher = document.getElementById("langSwitcher");
+      function applyRegLang(lang) {
+        const dict = regTranslations[lang] || regTranslations.uk;
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) el.textContent = dict[key];
+        });
+
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+          const key = el.getAttribute("data-i18n-placeholder");
+          if (dict[key]) el.setAttribute("placeholder", dict[key]);
+        });
+
+        localStorage.setItem("cyberarena_lang", lang);
+      }
+
+      const savedLang = localStorage.getItem("cyberarena_lang") || "uk";
+      if (switcher) {
+        switcher.value = regTranslations[savedLang] ? savedLang : "uk";
+        applyRegLang(switcher.value);
+        switcher.addEventListener("change", e => applyRegLang(e.target.value));
+      }
+    })();
+  </script>
+</body>
+</html>
